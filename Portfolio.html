@@ -779,7 +779,7 @@
       .campus-hero { grid-template-columns: 1fr !important; gap: 24px !important; }
       .ent-present { grid-template-columns: 1fr !important; gap: 24px !important; }
       .ent-cells-grid { grid-template-columns: repeat(2, 1fr) !important; }
-      .ent-missions-grid { grid-template-columns: 1fr !important; }
+      .ent-missions-grid { grid-template-columns: repeat(2, 1fr) !important; }
     }
 
     /* ── Mobile (≤ 767px) ── */
@@ -799,6 +799,7 @@
       .proj-grid { grid-template-columns: 1fr; }
       .certs-grid { grid-template-columns: repeat(2, 1fr); }
       .ent-cells-grid { grid-template-columns: 1fr !important; }
+      .ent-missions-grid { grid-template-columns: 1fr !important; }
 
       .veille-card { grid-template-columns: 1fr; }
       .veille-media { min-height: 150px; }
@@ -917,7 +918,7 @@
   <div class="timeline reveal">
     <div class="tl-item">
       <div class="tl-date">2025 — Maintenant</div>
-      <div class="tl-title">BTS SIO — Option SISR <span class="tl-badge">Bientôt</span></div>
+      <div class="tl-title">BTS SIO — Option SISR</div>
       <div class="tl-desc">Réseau, systèmes, sécurité.</div>
     </div>
     <div class="tl-item">
@@ -1047,14 +1048,15 @@
       </a>
       <div>
         <div style="font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.15em;margin-bottom:10px">SYNDICAT MIXTE — AMÉNAGEMENT NUMÉRIQUE</div>
-        <div style="font-family:var(--head);font-size:24px;font-weight:700;margin-bottom:14px;line-height:1.3">Alternant — Développeur Web / Intégrateur</div>
-        <p style="color:var(--fg2);font-size:14px;line-height:1.75;max-width:580px">J'interviens sur la conception et l'intégration web, la mise en valeur des données et l'optimisation du portail <strong style="color:var(--fg)">OpenDataSoft</strong>. Mon rôle consiste à améliorer la performance, l'accessibilité et la cohérence graphique des pages du portail numérique.</p>
+        <div style="font-family:var(--head);font-size:24px;font-weight:700;margin-bottom:14px;line-height:1.3">Alternant — Administrateur Systèmes &amp; Réseaux</div>
+        <p style="color:var(--fg2);font-size:14px;line-height:1.75;max-width:580px">Intervention sur l'administration des systèmes, l'infrastructure réseau, le développement d'outils internes et la gestion d'un portail <strong style="color:var(--fg)">open data</strong> (solution non pérennisée).</p>
       </div>
       <div style="display:flex;flex-wrap:wrap;gap:8px;max-width:200px;flex-shrink:0;justify-content:flex-end">
-        <span class="tag" style="border-color:var(--accent);color:var(--accent)">OpenData</span>
-        <span class="tag" style="border-color:var(--accent);color:var(--accent)">ODS</span>
-        <span class="tag">Accessibilité</span>
-        <span class="tag">SEO / Performance</span>
+        <span class="tag" style="border-color:var(--accent);color:var(--accent)">Sysadmin</span>
+        <span class="tag" style="border-color:var(--accent);color:var(--accent)">Réseaux</span>
+        <span class="tag">Linux</span>
+        <span class="tag">Next.js</span>
+        <span class="tag">OpenData</span>
       </div>
     </div>
 
@@ -1063,52 +1065,57 @@
       <div class="ent-cell">
         <div class="ent-cell-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
         <div class="ent-cell-label">RÔLE</div>
-        <div class="ent-cell-val">Développeur Web / Intégrateur</div>
+        <div class="ent-cell-val">Administrateur Systèmes &amp; Réseaux</div>
       </div>
       <div class="ent-cell">
         <div class="ent-cell-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg></div>
         <div class="ent-cell-label">STACK</div>
-        <div class="ent-cell-val">HTML · CSS · JS · Widgets ODS</div>
+        <div class="ent-cell-val">Linux · Samba AD · Next.js · HTML/CSS/JS</div>
       </div>
       <div class="ent-cell">
         <div class="ent-cell-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2-2 2.6-2.6z"/></svg></div>
         <div class="ent-cell-label">OUTILS</div>
-        <div class="ent-cell-val">GitLab · Visual Studio Code</div>
+        <div class="ent-cell-val">Visual Studio Code · Hyper-V · Draw.io</div>
       </div>
       <div class="ent-cell">
         <div class="ent-cell-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7v10l10 5 10-5V7z"/><path d="M2 7l10 5 10-5M12 22V12"/></svg></div>
         <div class="ent-cell-label">LIVRABLES</div>
-        <div class="ent-cell-val">Pages dynamiques, tableaux, cartes interactives</div>
+        <div class="ent-cell-val">Schémas réseaux, plateforme de formation, documentation technique</div>
       </div>
       <div class="ent-cell">
-        <div class="ent-cell-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10M18 20V4M6 20v-4"/></svg></div>
-        <div class="ent-cell-label">DONNÉES</div>
-        <div class="ent-cell-val">Collecte · Mise en forme · Normalisation</div>
+        <div class="ent-cell-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="8" rx="2"/><rect x="2" y="13" width="20" height="8" rx="2"/><path d="M6 7h.01M6 17h.01"/></svg></div>
+        <div class="ent-cell-label">INFRA</div>
+        <div class="ent-cell-val">Migration Linux · Samba AD · Ubuntu 26.04 LTS</div>
       </div>
       <div class="ent-cell">
         <div class="ent-cell-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M8.2 13.9 7 22l5-3 5 3-1.2-8.1"/></svg></div>
         <div class="ent-cell-label">QUALITÉ</div>
-        <div class="ent-cell-val">SEO · Performance · Accessibilité</div>
+        <div class="ent-cell-val">Sécurité · Documentation · Continuité de service</div>
       </div>
     </div>
   </div>
 
-  <!-- 3 missions clés en cartes verticales -->
-  <div class="reveal ent-missions-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+  <!-- 4 missions clés en cartes verticales -->
+  <div class="reveal ent-missions-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
     <div class="ent-mission">
       <div class="ent-mission-num">01</div>
-      <div class="ent-mission-title">Intégration web</div>
-      <div class="ent-mission-desc">Conception et intégration de pages dynamiques pour le portail numérique du territoire.</div>
+      <div class="ent-mission-title">Schémas réseaux</div>
+      <div class="ent-mission-desc">Cartographie et documentation de l'architecture réseau de l'entreprise (schémas logiques et physiques).</div>
     </div>
     <div class="ent-mission">
       <div class="ent-mission-num">02</div>
-      <div class="ent-mission-title">Valorisation des données</div>
-      <div class="ent-mission-desc">Mise en forme et exploitation des jeux de données ouvertes via widgets OpenDataSoft : tableaux, cartes, graphiques.</div>
+      <div class="ent-mission-title">Plateforme de formation interne</div>
+      <div class="ent-mission-desc">Développement d'une plateforme web de formation en interne avec Next.js.</div>
     </div>
     <div class="ent-mission">
       <div class="ent-mission-num">03</div>
-      <div class="ent-mission-title">Optimisation du portail</div>
-      <div class="ent-mission-desc">Amélioration de la performance, du référencement et de l'accessibilité des pages publiques.</div>
+      <div class="ent-mission-title">Migration infrastructure Linux</div>
+      <div class="ent-mission-desc">Projet de migration de l'ensemble de l'infrastructure vers Linux avec Samba AD en remplacement d'Active Directory.</div>
+    </div>
+    <div class="ent-mission">
+      <div class="ent-mission-num">04</div>
+      <div class="ent-mission-title">Portail Open Data</div>
+      <div class="ent-mission-desc">Gestion et intégration de données ouvertes via OpenDataSoft (solution non poursuivie).</div>
     </div>
   </div>
 </section>
@@ -1188,6 +1195,149 @@
     </div>
   </div>
 </div>
+
+<!-- ─── ÉPREUVES BTS — DOCUMENTS ─── -->
+<section id="epreuves-docs" class="section-wrap">
+  <p class="s-label reveal">// 04 — Documents d'épreuves</p>
+  <div class="divider reveal"></div>
+  <h2 class="s-title reveal">Épreuves <em>BTS</em></h2>
+  <p class="s-sub reveal">Les supports de présentation de mes épreuves du BTS SIO. Téléchargez le document ou consultez-en un aperçu directement dans la page.</p>
+
+  <div class="ep-doc-grid">
+    <article class="ep-doc-card reveal" style="transition-delay:.1s">
+      <div class="ep-doc-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V15z"/></svg>
+      </div>
+      <h3 class="ep-doc-title">Épreuve EF3</h3>
+      <p class="ep-doc-desc">Évaluation des compétences du bloc « Support et mise à disposition de services informatiques ».</p>
+      <div class="ep-doc-actions">
+        <a class="btn-p ep-doc-btn" href="public/epreuves/ef3.pdf" download>
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+          Télécharger
+        </a>
+        <button type="button" class="btn-g ep-doc-btn" onclick="openEpModal('public/epreuves/ef3.pdf','Épreuve EF3')">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          Aperçu
+        </button>
+      </div>
+    </article>
+
+    <article class="ep-doc-card reveal" style="transition-delay:.2s">
+      <div class="ep-doc-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <h3 class="ep-doc-title">Épreuve E5</h3>
+      <p class="ep-doc-desc">Épreuve orale de 20 minutes sur la démarche de développement de compétences complémentaires en lien avec le projet professionnel.</p>
+      <div class="ep-doc-actions">
+        <a class="btn-p ep-doc-btn" href="public/epreuves/e5.pdf" download>
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+          Télécharger
+        </a>
+        <button type="button" class="btn-g ep-doc-btn" onclick="openEpModal('public/epreuves/e5.pdf','Épreuve E5')">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          Aperçu
+        </button>
+      </div>
+    </article>
+
+    <article class="ep-doc-card reveal" style="transition-delay:.3s">
+      <div class="ep-doc-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M6 6h.01M6 18h.01"/></svg>
+      </div>
+      <h3 class="ep-doc-title">Épreuve E6</h3>
+      <p class="ep-doc-desc">Évaluation du bloc « Administration des systèmes et des réseaux » et mise en œuvre des services informatiques.</p>
+      <div class="ep-doc-actions">
+        <a class="btn-p ep-doc-btn" href="public/epreuves/e6.pdf" download>
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+          Télécharger
+        </a>
+        <button type="button" class="btn-g ep-doc-btn" onclick="openEpModal('public/epreuves/e6.pdf','Épreuve E6')">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          Aperçu
+        </button>
+      </div>
+    </article>
+  </div>
+</section>
+
+<style>
+  .ep-doc-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  .ep-doc-card {
+    display: flex; flex-direction: column;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 32px 28px;
+    position: relative; overflow: hidden;
+    transition: transform .25s, border-color .25s, box-shadow .25s;
+  }
+  .ep-doc-card::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform: scaleX(0); transform-origin: left; transition: transform .3s;
+  }
+  .ep-doc-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 12px 40px -12px var(--glow); }
+  .ep-doc-card:hover::before { transform: scaleX(1); }
+  .ep-doc-icon {
+    width: 52px; height: 52px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    color: var(--accent); margin-bottom: 20px;
+  }
+  .ep-doc-icon svg { width: 26px; height: 26px; }
+  .ep-doc-title { font-family: var(--head); font-size: 19px; font-weight: 700; margin-bottom: 10px; }
+  .ep-doc-desc { font-size: 13.5px; color: var(--fg2); line-height: 1.7; margin-bottom: 24px; flex: 1; }
+  .ep-doc-actions { display: flex; gap: 10px; }
+  .ep-doc-btn { flex: 1; justify-content: center; padding: 11px 14px; font-size: 11px; }
+
+  /* ── Modal aperçu PDF ── */
+  .ep-modal {
+    position: fixed; inset: 0; z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px; opacity: 0; visibility: hidden;
+    transition: opacity .3s ease, visibility .3s ease;
+  }
+  .ep-modal.open { opacity: 1; visibility: visible; }
+  .ep-modal-overlay {
+    position: absolute; inset: 0;
+    background: rgba(5, 5, 12, .78); backdrop-filter: blur(4px);
+    cursor: pointer;
+  }
+  .ep-modal-box {
+    position: relative; z-index: 1;
+    width: min(920px, 100%); height: min(88vh, 100%);
+    display: flex; flex-direction: column;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden;
+    box-shadow: 0 30px 80px -20px rgba(0,0,0,.7);
+    transform: translateY(24px) scale(.97); transition: transform .3s ease;
+  }
+  .ep-modal.open .ep-modal-box { transform: translateY(0) scale(1); }
+  .ep-modal-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px; border-bottom: 1px solid var(--border); flex-shrink: 0;
+  }
+  .ep-modal-name { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; color: var(--accent); }
+  .ep-modal-close {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px; border-radius: 8px;
+    background: transparent; border: 1px solid var(--border);
+    color: var(--fg2); font-size: 16px; cursor: pointer; transition: all .2s;
+  }
+  .ep-modal-close:hover { color: var(--fg); border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+  .ep-modal-body { flex: 1; background: #1a1a24; }
+  .ep-modal-body iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+  @media (max-width: 1023px) {
+    .ep-doc-grid { grid-template-columns: 1fr; max-width: 520px; margin: 0 auto; }
+  }
+  @media (max-width: 767px) {
+    .ep-modal { padding: 12px; }
+    .ep-modal-box { height: 92vh; }
+  }
+</style>
 
 <!-- ─── PROJECTS ─── -->
 <section id="projects" class="section-wrap">
@@ -1550,6 +1700,20 @@
 
 
 
+<!-- ─── MODAL APERÇU PDF ─── -->
+<div class="ep-modal" id="ep-modal" aria-hidden="true">
+  <div class="ep-modal-overlay" onclick="closeEpModal()"></div>
+  <div class="ep-modal-box" role="dialog" aria-modal="true" aria-labelledby="ep-modal-title">
+    <div class="ep-modal-head">
+      <span class="ep-modal-name" id="ep-modal-title">Aperçu</span>
+      <button type="button" class="ep-modal-close" onclick="closeEpModal()" aria-label="Fermer l'aperçu">✕</button>
+    </div>
+    <div class="ep-modal-body">
+      <iframe id="ep-modal-frame" title="Aperçu du document PDF" src="" loading="lazy"></iframe>
+    </div>
+  </div>
+</div>
+
 <!-- ─── FOOTER ─── -->
 <footer>
   <p>© 2026 <span>Wladimir Bigand</span> — Étudiant BTS SIO SISR</p>
@@ -1766,6 +1930,27 @@ function tick() {
 }
 setInterval(tick, 1000);
 tick();
+
+/* ─── MODAL APERÇU ÉPREUVES (PDF) ─── */
+function openEpModal(src, title) {
+  const modal = document.getElementById('ep-modal');
+  const frame = document.getElementById('ep-modal-frame');
+  document.getElementById('ep-modal-title').textContent = title || 'Aperçu';
+  frame.src = src;
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+function closeEpModal() {
+  const modal = document.getElementById('ep-modal');
+  if (!modal.classList.contains('open')) return;
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+  // Vide l'iframe après l'animation de fermeture pour stopper le rendu du PDF
+  setTimeout(() => { document.getElementById('ep-modal-frame').src = ''; }, 300);
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeEpModal(); });
 
 </script>
 </body>
