@@ -396,6 +396,32 @@
     .tl-title { font-family: var(--head); font-size: 20px; font-weight: 600; margin-bottom: 4px; }
     .tl-org { font-size: 14px; color: var(--fg2); margin-bottom: 10px; }
     .tl-desc { font-size: 14px; color: var(--fg2); line-height: 1.65; }
+    .tl-badge {
+      display: inline-block; vertical-align: middle; margin-left: 10px;
+      background: color-mix(in srgb, var(--accent) 16%, transparent);
+      color: var(--accent); font-family: var(--mono); font-size: 10px; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase; padding: 3px 11px;
+      border-radius: 100px; border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+      box-shadow: 0 0 14px var(--glow); animation: badgeGlow 2.4s ease infinite;
+    }
+    @keyframes badgeGlow { 0%,100%{box-shadow:0 0 8px var(--glow)} 50%{box-shadow:0 0 20px var(--glow)} }
+    .tl-sub {
+      font-family: var(--mono); font-size: 11px; color: var(--accent);
+      letter-spacing: .1em; text-transform: uppercase;
+      margin: 18px 0 10px; display: flex; align-items: center; gap: 8px;
+    }
+    .tl-sub::before { content: ''; width: 14px; height: 1px; background: var(--accent); flex-shrink: 0; }
+    .tl-list { list-style: none; display: flex; flex-direction: column; gap: 7px; margin: 0; padding: 0; }
+    .tl-list li { position: relative; padding-left: 18px; font-size: 13.5px; color: var(--fg2); line-height: 1.55; }
+    .tl-list li::before { content: '▹'; position: absolute; left: 0; top: 0; color: var(--accent); font-size: 12px; }
+    .tl-list li strong { color: var(--fg); font-weight: 500; }
+    .tl-stack { font-family: var(--mono); font-size: 11px; color: var(--accent); opacity: .85; }
+    .tl-certs { margin-top: 18px; font-size: 13px; color: var(--fg2); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .tl-cert {
+      font-family: var(--mono); font-size: 11px; color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+      padding: 3px 10px; border-radius: 4px; letter-spacing: .04em;
+    }
 
     /* ─── FORMATION ─── */
     .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
@@ -887,25 +913,40 @@
   <p class="s-label reveal">// 01 — Parcours</p>
   <div class="divider reveal"></div>
   <h2 class="s-title reveal">Mon <em>parcours</em></h2>
-  <p class="s-sub reveal">Expériences professionnelles et stages qui ont forgé mes compétences terrain.</p>
+  <p class="s-sub reveal">Mon parcours de formation, mes projets réalisés et mes certifications.</p>
   <div class="timeline reveal">
     <div class="tl-item">
-      <div class="tl-date">2024 — Présent</div>
-      <div class="tl-title">BTS SIO — Option SISR</div>
-      <div class="tl-org">Campus Ermitage — CFA Aspect Aquitaine, Agen</div>
-      <div class="tl-desc">Formation en Solutions d'Infrastructure, Systèmes et Réseaux. Administration système, réseaux, sécurité, développement web et gestion de projets IT.</div>
+      <div class="tl-date">2025 — Maintenant</div>
+      <div class="tl-title">BTS SIO — Option SISR <span class="tl-badge">Bientôt</span></div>
+      <div class="tl-desc">Réseau, systèmes, sécurité.</div>
     </div>
     <div class="tl-item">
-      <div class="tl-date">2024 — Stage</div>
-      <div class="tl-title">Stage Technicien Informatique</div>
-      <div class="tl-org">Entreprise locale</div>
-      <div class="tl-desc">Administration du parc informatique, déploiement de postes, support technique niveau 1 et 2, configuration réseau et maintenance des serveurs.</div>
+      <div class="tl-date">2023 – 2025</div>
+      <div class="tl-title">ESIEA — Campus Numérique 47, Agen</div>
+      <div class="tl-org">Étudiant Informatique</div>
+      <div class="tl-desc">
+        <div class="tl-sub">Projets informatiques</div>
+        <ul class="tl-list">
+          <li><strong>Accorderie Agenaise</strong> — Site web statique <span class="tl-stack">(HTML · CSS · JS)</span></li>
+          <li><strong>Diab'Landes</strong> — Site web dynamique <span class="tl-stack">(HTML · CSS · JS · PHP · SQL)</span></li>
+          <li><strong>Centre Jean Pouzet</strong> — Site web statique + admin <span class="tl-stack">(HTML · CSS · JS)</span></li>
+        </ul>
+        <div class="tl-sub">Projets de formations humaines</div>
+        <ul class="tl-list">
+          <li><strong>BATUC'FANFAR' BRASS-BAND</strong> — Création print</li>
+          <li><strong>Philippides</strong> — Communication visuelle</li>
+          <li><strong>EVAD</strong> — Communication print</li>
+        </ul>
+        <div class="tl-certs">Certifications :
+          <span class="tl-cert">TOEIC</span>
+          <span class="tl-cert">Voltaire</span>
+        </div>
+      </div>
     </div>
     <div class="tl-item">
-      <div class="tl-date">2023</div>
-      <div class="tl-title">Baccalauréat Technologique</div>
-      <div class="tl-org">Filière STI2D / NSI</div>
-      <div class="tl-desc">Obtention du baccalauréat avec spécialité numérique. Premiers projets en développement et sensibilisation aux systèmes informatiques.</div>
+      <div class="tl-date">2021 – 2023</div>
+      <div class="tl-title">Institution Sainte-Catherine — Villeneuve-sur-Lot</div>
+      <div class="tl-desc">Baccalauréat Technologique — Énergie &amp; Environnement.</div>
     </div>
   </div>
 </section>
@@ -1355,7 +1396,7 @@
     </div>
     <div class="cert-card reveal" style="transition-delay:.25s">
       <div class="cert-media">
-        <img src="public/certs/MOOC_IA.png" alt="MOOC — Les fondamentaux de l'IA" loading="lazy">
+        <img src="public/certs/MOOC_IA.jpg" alt="MOOC — Les fondamentaux de l'IA" loading="lazy">
       </div>
       <div class="cert-body">
         <div class="cert-name">MOOC — Les fondamentaux de l'IA</div>
@@ -1471,21 +1512,21 @@
       <p class="contact-title">Disponible pour un stage ou une alternance</p>
       <p class="contact-desc">Étudiant en BTS SIO SISR, je recherche des opportunités de stage ou d'alternance pour mettre en pratique mes compétences en systèmes, réseaux et cybersécurité.</p>
       <div class="clinks">
-        <a class="clink" href="mailto:wladimir.bigand@email.fr">
+        <a class="clink" href="mailto:wladimir.bigand@gmail.fr">
           <div class="clink-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></div>
-          wladimir.bigand@email.fr
+          wladimir.bigand@gmail.fr
         </a>
-        <a class="clink" href="#">
+        <a class="clink" href="https://www.linkedin.com/in/wladimir-bigand/">
           <div class="clink-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div>
-          linkedin.com/in/wladimirbigand
+          linkedin.com/in/wladimir-bigand
         </a>
-        <a class="clink" href="#">
+        <a class="clink" href="https://github.com/wladimirbigand">
           <div class="clink-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></div>
           github.com/wladimirbigand
         </a>
         <a class="clink" href="#">
           <div class="clink-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-          Landes (40), France
+          Agen (47), France
         </a>
       </div>
     </div>
@@ -1518,7 +1559,6 @@
 <!-- ─── SESSION TIMER ─── -->
 <div id="session-timer" title="Temps passé sur la page">
   <span class="st-dot"></span>
-  <span class="st-label">session</span>
   <span class="st-val" id="st-val">00:00</span>
 </div>
 
