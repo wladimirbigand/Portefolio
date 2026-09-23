@@ -20,6 +20,8 @@
 - Interface en français.
 - Aucune nouvelle dépendance sans validation explicite.
 - Ne jamais inventer de détail technique sur les réalisations : utiliser `TODO(wladimir)`.
+- Portfolio public : aucune donnée d'infrastructure réelle de l'employeur (IP, VLAN IDs, noms d'hôtes, domaines internes) dans le contenu ou les images. Toute capture/schéma doit être anonymisé.
+- Durée du mode Présentation : uniquement `site.presentation.dureeMinutes` (`src/content/site.ts`), jamais codée en dur ailleurs.
 - Icônes : lucide-react uniquement. Animations : Motion uniquement (pas de lib d'animation CSS tierce).
 - Composants : un composant par fichier, props typées, pas de `any`.
 
@@ -43,7 +45,14 @@
 - `prefers-reduced-motion` respecté : chaque animation a une version réduite.
 
 ## Skills à utiliser
-- taste-skill : `.claude/skills/design-taste-frontend/SKILL.md` (skill principal du dépôt Leonxlnx/taste-skill ; complément : `.claude/skills/redesign-existing-projects/`, `.claude/skills/high-end-visual-design/`. Ne pas suivre `gpt-taste` (GSAP), ni `image-to-code` / `imagegen-*` (génération d'images) : incompatibles avec les règles ci-dessus) — décisions esthétiques, éviter le rendu « template générique ».
+- taste-skill : `.claude/skills/design-taste-frontend/SKILL.md` (skill principal du dépôt Leonxlnx/taste-skill ; skills complémentaires du même dépôt listés ci-dessous) — décisions esthétiques, éviter le rendu « template générique ».
+  - `design-taste-frontend` : lecture du brief, réglage des « dials », discipline anti-template → à chaque décision esthétique, en priorité au prompt 1.
+  - `design-taste-frontend-v1` : ancienne version conservée pour compatibilité → non utilisé par défaut.
+  - `high-end-visual-design` : règles de polices, espacements, ombres et cartes « haut de gamme » → en complément pendant l'exploration des DA, toujours filtré par les contraintes projecteur.
+  - `minimalist-ui` : esthétique éditoriale monochrome, bento plat, sans dégradés → uniquement si une piste de DA va dans ce sens.
+  - `industrial-brutalist-ui` : esthétique brutaliste suisse / terminal → uniquement si une piste de DA va dans ce sens ; ses effets de dégradation analogique sont exclus (contraintes projecteur).
+  - `redesign-existing-projects` : audit d'un existant et montée en gamme → pour auditer `_legacy/` et relire les itérations.
+  - `full-output-enforcement` : interdit le code tronqué et les placeholders → lors de la génération de composants complets ; les `TODO(wladimir)` restent obligatoires (la règle du projet prime).
 - web-design-guidelines : `.claude/skills/web-design-guidelines/SKILL.md` — relecture UI/UX à chaque fin d'itération.
 - Motion / framer-motion : `framer-motion:framer-motion` (plugin utilisateur), `~/.claude/plugins/cache/framer-motion-skill/framer-motion/1.0.1/skills/framer-motion/SKILL.md` — toute animation.
 - playwright-cli : `.claude/skills/playwright-cli/SKILL.md` (CLI globale `playwright-cli` v0.1.21, navigateur : Chrome local) — captures et vérifications visuelles.

@@ -70,6 +70,11 @@ export type Site = {
     copyright: string
     signature: string
   }
+  /** Mode Présentation (oral devant le jury). */
+  presentation: {
+    /** Durée du compte à rebours, en minutes. Seule source de vérité : aucune durée codée ailleurs. */
+    dureeMinutes: number
+  }
 }
 
 /* ─── Profil / hero ─── */

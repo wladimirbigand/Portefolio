@@ -32,4 +32,8 @@ export const site: Site = {
     copyright: '© 2026 Wladimir Bigand — Étudiant BTS SIO SISR',
     signature: 'Conçu avec passion et beaucoup de café',
   },
+  presentation: {
+    // TODO(wladimir): confirmer la durée de l'oral E5 (valeur par défaut : 20 minutes).
+    dureeMinutes: 20,
+  },
 }
