@@ -1,0 +1,45 @@
+/* B · Infra : ambre « néon » sur fond sombre, couleurs de statut toujours doublées d'un libellé. */
+:root[data-palette='b'] {
+  --c-bg: #eef0ef;
+  --c-surface: #ffffff;
+  --c-surface-2: #e2e5e3;
+  --c-rule: #c9cecb;
+  --c-border: #1b1f1d;
+  --c-text: #111413;
+  --c-muted: #474e4b;
+  --c-accent: #8a5700;
+  --c-on-accent: #ffffff;
+  --c-accent-fill: #ffb547;
+  --c-on-accent-fill: #111413;
+  --c-accent-soft: #fbe9c8;
+  --c-ok: #1e6b35;
+  --c-shadow: 17 20 19;
+  --c-cadre-entreprise: #8a5700;
+  --c-on-cadre-entreprise: #ffffff;
+  --c-cadre-formation: #2f5f8a;
+  --c-on-cadre-formation: #ffffff;
+  --c-cadre-personnel: #5e4b8a;
+  --c-on-cadre-personnel: #ffffff;
+}
+:root.dark[data-palette='b'] {
+  --c-bg: #0d0f0d;
+  --c-surface: #141714;
+  --c-surface-2: #1b1f1b;
+  --c-rule: #2a302a;
+  --c-border: #667063;
+  --c-text: #e4e7e1;
+  --c-muted: #a0a89b;
+  --c-accent: #ffb547;
+  --c-on-accent: #0d0f0d;
+  --c-accent-fill: #ffb547;
+  --c-on-accent-fill: #0d0f0d;
+  --c-accent-soft: #2e2512;
+  --c-ok: #7fd690;
+  --c-shadow: 0 0 0;
+  --c-cadre-entreprise: #ffb547;
+  --c-on-cadre-entreprise: #0d0f0d;
+  --c-cadre-formation: #8ec7ff;
+  --c-on-cadre-formation: #0d0f0d;
+  --c-cadre-personnel: #c9b3ff;
+  --c-on-cadre-personnel: #0d0f0d;
+}

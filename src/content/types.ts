@@ -68,6 +68,11 @@ export type Site = {
     progressionScroll: string
     scroll: string
     lienExterne: string
+    /** Placeholder visible pour un champ encore marqué TODO(wladimir). */
+    aCompleter: string
+    navigationPrincipale: string
+    sectionCourante: string
+    allerAuContenu: string
   }
   footer: {
     copyright: string
@@ -283,6 +288,11 @@ export type Realisations = {
     competences: string
     preuves: string
     aucunePreuve: string
+    cadre: string
+    statut: string
+    periode: string
+    voirFiche: string
+    ficheDetaillee: string
   }
   liste: Realisation[]
 }

@@ -1,0 +1,45 @@
+/* C · Éditorial : neutres chauds + 1 accent vert sapin sourd. Aucun aplat vif. */
+:root[data-palette='c'] {
+  --c-bg: #f9f8f6;
+  --c-surface: #f1efea;
+  --c-surface-2: #e8e5de;
+  --c-rule: #ddd9d1;
+  --c-border: #857f75;
+  --c-text: #22211f;
+  --c-muted: #5c5850;
+  --c-accent: #1c6a4f;
+  --c-on-accent: #ffffff;
+  --c-accent-fill: #1c6a4f;
+  --c-on-accent-fill: #ffffff;
+  --c-accent-soft: #e2eee7;
+  --c-ok: #1c6a4f;
+  --c-shadow: 34 33 31;
+  --c-cadre-entreprise: #1c6a4f;
+  --c-on-cadre-entreprise: #ffffff;
+  --c-cadre-formation: #3f5f8f;
+  --c-on-cadre-formation: #ffffff;
+  --c-cadre-personnel: #8a4b2f;
+  --c-on-cadre-personnel: #ffffff;
+}
+:root.dark[data-palette='c'] {
+  --c-bg: #191816;
+  --c-surface: #22211e;
+  --c-surface-2: #2b2a26;
+  --c-rule: #34322e;
+  --c-border: #7a766e;
+  --c-text: #ece9e3;
+  --c-muted: #ada89e;
+  --c-accent: #74c9a5;
+  --c-on-accent: #191816;
+  --c-accent-fill: #74c9a5;
+  --c-on-accent-fill: #191816;
+  --c-accent-soft: #1f3029;
+  --c-ok: #74c9a5;
+  --c-shadow: 0 0 0;
+  --c-cadre-entreprise: #74c9a5;
+  --c-on-cadre-entreprise: #191816;
+  --c-cadre-formation: #9db8e8;
+  --c-on-cadre-formation: #191816;
+  --c-cadre-personnel: #e3a383;
+  --c-on-cadre-personnel: #191816;
+}

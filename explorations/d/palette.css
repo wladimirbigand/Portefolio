@@ -1,0 +1,46 @@
+/* D · Signalétique : aplats vifs codés (une couleur de ligne par cadre, toujours doublée
+   d'une lettre). Aucune couleur officielle de réseau de transport n'est reprise. */
+:root[data-palette='d'] {
+  --c-bg: #f3f4f6;
+  --c-surface: #ffffff;
+  --c-surface-2: #e7e9ee;
+  --c-rule: #d5d9e0;
+  --c-border: #6b7383;
+  --c-text: #0f1219;
+  --c-muted: #454d5c;
+  --c-accent: #bd2e12;
+  --c-on-accent: #ffffff;
+  --c-accent-fill: #bd2e12;
+  --c-on-accent-fill: #ffffff;
+  --c-accent-soft: #fbe3dc;
+  --c-ok: #0b7340;
+  --c-shadow: 15 18 25;
+  --c-cadre-entreprise: #1946c8;
+  --c-on-cadre-entreprise: #ffffff;
+  --c-cadre-formation: #0b7340;
+  --c-on-cadre-formation: #ffffff;
+  --c-cadre-personnel: #f2a20c;
+  --c-on-cadre-personnel: #0f1219;
+}
+:root.dark[data-palette='d'] {
+  --c-bg: #0e1322;
+  --c-surface: #18203a;
+  --c-surface-2: #212a47;
+  --c-rule: #2a3454;
+  --c-border: #6b7590;
+  --c-text: #f2f4f8;
+  --c-muted: #aeb6c8;
+  --c-accent: #ff7a55;
+  --c-on-accent: #0e1322;
+  --c-accent-fill: #ff7a55;
+  --c-on-accent-fill: #0e1322;
+  --c-accent-soft: #3a2230;
+  --c-ok: #4ccb8a;
+  --c-shadow: 0 0 0;
+  --c-cadre-entreprise: #7fa6ff;
+  --c-on-cadre-entreprise: #0e1322;
+  --c-cadre-formation: #4ccb8a;
+  --c-on-cadre-formation: #0e1322;
+  --c-cadre-personnel: #ffb93d;
+  --c-on-cadre-personnel: #0e1322;
+}

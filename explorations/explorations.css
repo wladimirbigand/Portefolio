@@ -1,0 +1,130 @@
+/* Feuille de style des explorations de DA (serveur de dev uniquement).
+   Utilitaires Tailwind générés à partir du seul dossier explorations/ ; le CSS de production
+   (src/styles/index.css) ne scanne que src/. */
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities) source(none);
+
+@import './a/palette.css';
+@import './b/palette.css';
+@import './c/palette.css';
+@import './d/palette.css';
+@import './a/type.css';
+@import './b/type.css';
+@import './c/type.css';
+@import './d/type.css';
+@import './partage/mixeur.css';
+
+@source './';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Les layouts n'utilisent que ces noms sémantiques : chaque palette / typo les redéfinit. */
+@theme inline {
+  --color-bg: var(--c-bg);
+  --color-surface: var(--c-surface);
+  --color-surface-2: var(--c-surface-2);
+  --color-rule: var(--c-rule);
+  --color-line: var(--c-border);
+  --color-fg: var(--c-text);
+  --color-muted: var(--c-muted);
+  --color-accent: var(--c-accent);
+  --color-on-accent: var(--c-on-accent);
+  --color-accent-fill: var(--c-accent-fill);
+  --color-on-accent-fill: var(--c-on-accent-fill);
+  --color-accent-soft: var(--c-accent-soft);
+  --color-ok: var(--c-ok);
+  --color-cadre-entreprise: var(--c-cadre-entreprise);
+  --color-on-cadre-entreprise: var(--c-on-cadre-entreprise);
+  --color-cadre-formation: var(--c-cadre-formation);
+  --color-on-cadre-formation: var(--c-on-cadre-formation);
+  --color-cadre-personnel: var(--c-cadre-personnel);
+  --color-on-cadre-personnel: var(--c-on-cadre-personnel);
+
+  --font-display: var(--f-display);
+  --font-body: var(--f-body);
+  --font-ui: var(--f-ui);
+  --font-meta: var(--f-meta);
+  --font-code: var(--f-mono);
+
+  --text-body: var(--fs-body);
+  --text-body--line-height: var(--lh-body);
+  --text-lead: var(--fs-lead);
+  --text-lead--line-height: var(--lh-body);
+  --text-ui: var(--fs-ui);
+  --text-ui--line-height: 1.3;
+  --text-meta: var(--fs-meta);
+  --text-meta--line-height: 1.4;
+  --text-h1: var(--fs-h1);
+  --text-h1--line-height: var(--lh-titre);
+  --text-h2: var(--fs-h2);
+  --text-h2--line-height: var(--lh-titre);
+  --text-h3: var(--fs-h3);
+  --text-h3--line-height: 1.2;
+}
+
+/* Titres : famille, graisse, approche et interlignage viennent de la couche typo. */
+@utility titre {
+  font-family: var(--f-display);
+  font-weight: var(--fw-titre);
+  letter-spacing: var(--tr-titre);
+  line-height: var(--lh-titre);
+  text-wrap: balance;
+}
+
+/* Métadonnées (cadre, statut, période…) : casse et approche décidées par la couche typo. */
+@utility meta {
+  font-family: var(--f-meta);
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  text-transform: var(--tt-meta);
+  line-height: 1.4;
+}
+
+@utility fort {
+  font-weight: var(--fw-fort);
+}
+
+@utility accent-style {
+  font-style: var(--fst-accent);
+}
+
+/* Transitions CSS de couleur : durée et courbe issues du preset Motion actif. */
+@utility transition-ui {
+  transition-property: color, background-color, border-color, opacity, box-shadow;
+  transition-duration: var(--d-ui);
+  transition-timing-function: var(--e-ui);
+}
+
+:root[data-palette] {
+  background: var(--c-bg);
+  color: var(--c-text);
+  color-scheme: light;
+  scroll-padding-top: 7rem;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+:root.dark[data-palette] {
+  color-scheme: dark;
+}
+:root[data-type] body {
+  margin: 0;
+  font-family: var(--f-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+:root[data-palette] ::selection {
+  background: var(--c-accent-fill);
+  color: var(--c-on-accent-fill);
+}
+:root[data-palette] :focus-visible {
+  outline: 3px solid var(--c-accent);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-palette] {
+    scroll-behavior: smooth;
+  }
+}

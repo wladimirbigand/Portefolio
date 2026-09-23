@@ -22,6 +22,11 @@ export const realisations: Realisations = {
     competences: 'Compétences mobilisées',
     preuves: 'Preuves',
     aucunePreuve: 'Captures et schémas à venir.',
+    cadre: 'Cadre',
+    statut: 'Statut',
+    periode: 'Période',
+    voirFiche: 'Voir la fiche',
+    ficheDetaillee: 'Fiche détaillée',
   },
   liste: [
     /* ─── 1. Samba AD ─── */

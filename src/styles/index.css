@@ -1,4 +1,6 @@
-@import 'tailwindcss';
+/* source('../') : Tailwind ne scanne que src/ (le dossier explorations/ ne doit jamais
+   alimenter le CSS de production). */
+@import 'tailwindcss' source('../');
 
 /* Dark mode piloté par la classe .dark sur <html> (voir useTheme). */
 @custom-variant dark (&:where(.dark, .dark *));

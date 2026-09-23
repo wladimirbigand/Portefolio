@@ -1,0 +1,29 @@
+/* D · Signalétique : grotesque condensée (Barlow Condensed) + Atkinson Hyperlegible Next,
+   conçue pour la lisibilité à faible acuité, donc à distance sur projecteur. */
+@import '@fontsource/barlow-condensed/500.css';
+@import '@fontsource/barlow-condensed/600.css';
+@import '@fontsource/barlow-condensed/700.css';
+@import '@fontsource-variable/atkinson-hyperlegible-next';
+
+:root[data-type='d'] {
+  --f-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --f-body: 'Atkinson Hyperlegible Next Variable', ui-sans-serif, system-ui, sans-serif;
+  --f-ui: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --f-meta: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --f-mono: ui-monospace, monospace;
+  --fs-body: 1.1875rem;
+  --lh-body: 1.55;
+  --fs-lead: 1.3125rem;
+  --fs-ui: 1.1875rem;
+  --fs-meta: 1.0625rem;
+  --fs-h1: clamp(3rem, 2.2rem + 2.4vw, 4.5rem);
+  --fs-h2: clamp(2.25rem, 1.7rem + 1.6vw, 3.25rem);
+  --fs-h3: 1.75rem;
+  --lh-titre: 1.02;
+  --fw-titre: 700;
+  --fw-fort: 700;
+  --tr-titre: 0;
+  --tr-meta: 0.04em;
+  --tt-meta: uppercase;
+  --fst-accent: normal;
+}

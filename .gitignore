@@ -27,3 +27,6 @@ dist-ssr
 
 # Références de design (awesome-design-md), non versionnées
 .reference/
+
+# Captures et vidéos : consultées en local, jamais versionnées
+screenshots/

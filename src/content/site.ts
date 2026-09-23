@@ -27,6 +27,10 @@ export const site: Site = {
     progressionScroll: 'Progression de la lecture',
     scroll: 'Scroll',
     lienExterne: "(s'ouvre dans un nouvel onglet)",
+    aCompleter: '[à compléter]',
+    navigationPrincipale: 'Navigation principale',
+    sectionCourante: 'Section courante',
+    allerAuContenu: 'Aller au contenu',
   },
   footer: {
     copyright: '© 2026 Wladimir Bigand · Étudiant BTS SIO SISR',

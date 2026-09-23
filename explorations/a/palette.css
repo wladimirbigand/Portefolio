@@ -1,0 +1,45 @@
+/* A · Précis : neutres froids + 1 accent bleu glacier. Profondeur par surfaces étagées. */
+:root[data-palette='a'] {
+  --c-bg: #f7f8fa;
+  --c-surface: #ffffff;
+  --c-surface-2: #eef0f4;
+  --c-rule: #e3e6ec;
+  --c-border: #767f90;
+  --c-text: #0e1116;
+  --c-muted: #4f5766;
+  --c-accent: #2a4fcb;
+  --c-on-accent: #ffffff;
+  --c-accent-fill: #2a4fcb;
+  --c-on-accent-fill: #ffffff;
+  --c-accent-soft: #e6ecfb;
+  --c-ok: #17703f;
+  --c-shadow: 14 17 22;
+  --c-cadre-entreprise: #2a4fcb;
+  --c-on-cadre-entreprise: #ffffff;
+  --c-cadre-formation: #0f6b64;
+  --c-on-cadre-formation: #ffffff;
+  --c-cadre-personnel: #9a5706;
+  --c-on-cadre-personnel: #ffffff;
+}
+:root.dark[data-palette='a'] {
+  --c-bg: #0b0d12;
+  --c-surface: #14171f;
+  --c-surface-2: #1b1f29;
+  --c-rule: #252a35;
+  --c-border: #6b7488;
+  --c-text: #edeff3;
+  --c-muted: #a6adbb;
+  --c-accent: #8aadff;
+  --c-on-accent: #0b0d12;
+  --c-accent-fill: #8aadff;
+  --c-on-accent-fill: #0b0d12;
+  --c-accent-soft: #1a2440;
+  --c-ok: #7fd690;
+  --c-shadow: 0 0 0;
+  --c-cadre-entreprise: #8aadff;
+  --c-on-cadre-entreprise: #0b0d12;
+  --c-cadre-formation: #5fd3c4;
+  --c-on-cadre-formation: #0b0d12;
+  --c-cadre-personnel: #f5b061;
+  --c-on-cadre-personnel: #0b0d12;
+}
