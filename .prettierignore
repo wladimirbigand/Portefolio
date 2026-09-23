@@ -1,0 +1,8 @@
+_legacy/
+.reference/
+dist/
+screenshots/
+package-lock.json
+.claude/
+skills-lock.json
+public/

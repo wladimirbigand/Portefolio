@@ -1,0 +1,6 @@
+@import 'tailwindcss';
+
+/* Dark mode piloté par la classe .dark sur <html> (voir useTheme). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Tokens de design : à définir au prompt 1 (voir DESIGN.md). */

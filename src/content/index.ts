@@ -1,0 +1,13 @@
+// Point d'entrée unique du contenu du site.
+export { site } from './site'
+export { profil } from './profil'
+export { parcours } from './parcours'
+export { formation } from './formation'
+export { entreprise } from './entreprise'
+export { realisations } from './realisations'
+export { competences } from './competences'
+export { certifications } from './certifications'
+export { veille } from './veille'
+export { epreuves } from './epreuves'
+export { contact } from './contact'
+export type * from './types'
