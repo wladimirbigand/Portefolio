@@ -6,3 +6,5 @@ package-lock.json
 .claude/
 skills-lock.json
 public/
+CLAUDE.md
+DESIGN.md
