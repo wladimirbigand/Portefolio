@@ -247,5 +247,31 @@ export const realisations: Realisations = {
       preuves: [], // TODO(wladimir): captures, lien éventuel
       misEnAvant: false,
     },
+
+    /* ─── 11. Bot Discord de veille ─── */
+    {
+      id: 'bot-discord-veille',
+      titre: 'Bot Discord de veille',
+      sousTitre: 'Digests de flux RSS générés par IA',
+      cadre: 'personnel',
+      statut: 'termine', // TODO(wladimir): confirmer le statut (en service, en évolution ?)
+      periode: 'À préciser', // TODO(wladimir): période
+      resume:
+        "Bot Discord maison : j'y ajoute des flux RSS par commandes, et il génère des digests grâce à l'API Claude.",
+      contexte:
+        'Outil personnel au cœur de ma veille informatique : il centralise des flux RSS et en produit des synthèses.',
+      // TODO(wladimir): objectifs (gagner du temps sur la veille, filtrer le bruit… ?).
+      objectifs: [],
+      missions: [
+        "Permettre l'ajout de flux RSS au bot via des commandes Discord.",
+        'Récupérer les nouveaux articles de ces flux.',
+        "Générer des digests grâce à l'API Claude.",
+      ],
+      stack: ['Node.js', 'RSS', 'API Claude'],
+      competences: ['dev-pro'],
+      // TODO(wladimir): captures d'un digest et des commandes ; lien vers le dépôt s'il est public.
+      preuves: [],
+      misEnAvant: false,
+    },
   ],
 }

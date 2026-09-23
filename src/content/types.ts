@@ -245,6 +245,7 @@ export type RealisationId =
   | 'infra-reseau-audit'
   | 'site-jean-pouzet'
   | 'site-diablandes'
+  | 'bot-discord-veille'
 
 export type CadreRealisation = 'entreprise' | 'formation' | 'personnel'
 
