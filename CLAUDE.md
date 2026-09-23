@@ -47,7 +47,6 @@
 ## Skills à utiliser
 - taste-skill : `.claude/skills/design-taste-frontend/SKILL.md` (skill principal du dépôt Leonxlnx/taste-skill ; skills complémentaires du même dépôt listés ci-dessous) — décisions esthétiques, éviter le rendu « template générique ».
   - `design-taste-frontend` : lecture du brief, réglage des « dials », discipline anti-template → à chaque décision esthétique, en priorité au prompt 1.
-  - `design-taste-frontend-v1` : ancienne version conservée pour compatibilité → non utilisé par défaut.
   - `high-end-visual-design` : règles de polices, espacements, ombres et cartes « haut de gamme » → en complément pendant l'exploration des DA, toujours filtré par les contraintes projecteur.
   - `minimalist-ui` : esthétique éditoriale monochrome, bento plat, sans dégradés → uniquement si une piste de DA va dans ce sens.
   - `industrial-brutalist-ui` : esthétique brutaliste suisse / terminal → uniquement si une piste de DA va dans ce sens ; ses effets de dégradation analogique sont exclus (contraintes projecteur).
