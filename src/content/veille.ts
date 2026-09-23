@@ -3,7 +3,7 @@ import type { Veille } from './types'
 export const veille: Veille = {
   section: {
     ancre: 'veille',
-    label: '08 — Veille informatique',
+    label: 'Veille informatique',
     titre: 'Mon écosystème de veille',
     titreAccent: 'veille',
     // TODO(wladimir): relire l'intro.

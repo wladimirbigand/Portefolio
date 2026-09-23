@@ -1,7 +1,7 @@
 import type { Site } from './types'
 
 export const site: Site = {
-  titre: 'Wladimir Bigand — Portfolio',
+  titre: 'Wladimir Bigand · Portfolio',
   logo: { initiale: 'W', nom: 'Bigand', ariaLabel: 'Revenir en haut de la page' },
   navigation: [
     { label: 'Parcours', ancre: 'parcours' },
@@ -29,7 +29,7 @@ export const site: Site = {
     lienExterne: "(s'ouvre dans un nouvel onglet)",
   },
   footer: {
-    copyright: '© 2026 Wladimir Bigand — Étudiant BTS SIO SISR',
+    copyright: '© 2026 Wladimir Bigand · Étudiant BTS SIO SISR',
     signature: 'Conçu avec passion et beaucoup de café',
   },
   presentation: {

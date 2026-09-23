@@ -7,7 +7,7 @@ import type { Competences } from './types'
 export const competences: Competences = {
   section: {
     ancre: 'competences',
-    label: '06 — Compétences',
+    label: 'Compétences',
     titre: 'Mon stack',
     titreAccent: 'stack',
     sousTitre:
@@ -161,7 +161,7 @@ export const competences: Competences = {
   ],
   bloc: {
     // TODO(wladimir): confirmer avec la grille officielle (intitulés exacts du bloc 1).
-    titre: 'Compétences du bloc 1 — BTS SIO',
+    titre: 'Compétences du bloc 1 du BTS SIO',
     description:
       'Synthèse des compétences du bloc « Support et mise à disposition de services informatiques » mobilisées par mes réalisations.',
     competences: [

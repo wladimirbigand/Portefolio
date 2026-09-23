@@ -3,7 +3,7 @@ import type { Entreprise } from './types'
 export const entreprise: Entreprise = {
   section: {
     ancre: 'entreprise',
-    label: '03 — Entreprise',
+    label: 'Entreprise',
     titre: 'Lot-et-Garonne Numérique',
     titreAccent: 'Numérique',
     sousTitre:
@@ -16,8 +16,8 @@ export const entreprise: Entreprise = {
     externe: true,
   },
   logo: { src: 'images/logo-lgn.png', alt: 'Logo Lot-et-Garonne Numérique' },
-  typeStructure: 'Syndicat mixte — Aménagement numérique',
-  poste: 'Alternant — Administrateur Systèmes & Réseaux',
+  typeStructure: 'Syndicat mixte · Aménagement numérique',
+  poste: 'Alternant · Administrateur Systèmes & Réseaux',
   // TODO(wladimir): mettre à jour avec les nouvelles missions (Jitsi/Dolibarr, support, n8n…).
   resumeMission:
     "Intervention sur l'administration des systèmes, l'infrastructure réseau, le développement d'outils internes et la gestion d'un portail open data (solution non pérennisée).",

@@ -3,6 +3,7 @@
 /* ─── Primitives ─── */
 
 export type Lien = {
+  /** Libellé court de la section, sans numéro (le numéro est calculé par `src/lib/sections.ts`). */
   label: string
   href: string
   externe?: boolean
@@ -16,6 +17,7 @@ export type Image = {
 /** En-tête commun à chaque section (label court, titre, sous-titre). */
 export type EnTeteSection = {
   ancre: string
+  /** Libellé court de la section, sans numéro (le numéro est calculé par `src/lib/sections.ts`). */
   label: string
   titre: string
   /** Partie du titre à mettre en valeur visuellement (doit apparaître dans `titre`). */
@@ -44,6 +46,7 @@ export type IconeNom =
 /* ─── Site (navigation, libellés d'interface) ─── */
 
 export type ElementNav = {
+  /** Libellé court de la section, sans numéro (le numéro est calculé par `src/lib/sections.ts`). */
   label: string
   ancre: string
 }
@@ -134,6 +137,7 @@ export type FormationProposee = {
 }
 
 export type EtapeParcoursNumerique = {
+  /** Libellé court de la section, sans numéro (le numéro est calculé par `src/lib/sections.ts`). */
   label: string
   niveau?: string
   etat: 'passe' | 'actuel' | 'futur'
@@ -162,6 +166,7 @@ export type Formation = {
 
 export type InfoEntreprise = {
   id: string
+  /** Libellé court de la section, sans numéro (le numéro est calculé par `src/lib/sections.ts`). */
   label: string
   valeur: string
   icone: IconeNom
@@ -360,6 +365,7 @@ export type Epreuves = {
 
 export type ChampFormulaire = {
   nom: 'nom' | 'email' | 'message'
+  /** Libellé court de la section, sans numéro (le numéro est calculé par `src/lib/sections.ts`). */
   label: string
   placeholder: string
   type: 'text' | 'email' | 'textarea'

@@ -6,7 +6,7 @@ import type { Realisations } from './types'
 export const realisations: Realisations = {
   section: {
     ancre: 'realisations',
-    label: '05 — Réalisations',
+    label: 'Réalisations',
     titre: 'Mes réalisations',
     titreAccent: 'réalisations',
     sousTitre:
@@ -109,7 +109,7 @@ export const realisations: Realisations = {
       cadre: 'entreprise',
       statut: 'en-cours',
       noteStatut: 'En continu',
-      periode: '2025 — Maintenant', // TODO(wladimir): confirmer la date de début
+      periode: '2025 – maintenant', // TODO(wladimir): confirmer la date de début
       resume: 'Dépannage et assistance auprès de mes collègues.',
       contexte: 'Support de proximité auprès des collègues de Lot-et-Garonne Numérique.',
       objectifs: [],
@@ -207,7 +207,7 @@ export const realisations: Realisations = {
       sousTitre: 'Site vitrine avec menu Admin',
       cadre: 'formation',
       statut: 'termine',
-      periode: 'ESIEA — Campus Numérique 47 (2023 – 2025)', // TODO(wladimir): année précise
+      periode: 'ESIEA · Campus Numérique 47 (2023 – 2025)', // TODO(wladimir): année précise
       resume:
         'Site avec backend et interface administrateur sécurisée : authentification, gestion des contenus, médias et paramètres.',
       contexte: "Projet réalisé pendant ma formation à l'ESIEA pour le Centre Jean Pouzet.",
@@ -229,7 +229,7 @@ export const realisations: Realisations = {
       sousTitre: 'Site vitrine avec menu Admin',
       cadre: 'formation',
       statut: 'termine',
-      periode: 'ESIEA — Campus Numérique 47 (2023 – 2025)', // TODO(wladimir): année précise
+      periode: 'ESIEA · Campus Numérique 47 (2023 – 2025)', // TODO(wladimir): année précise
       resume: "Site pour une association d'enfants malades du diabète de type 1.",
       contexte: "Projet réalisé pendant ma formation à l'ESIEA pour l'association Diab'Landes.",
       objectifs: ["Permettre à l'association une gestion autonome de son site."],

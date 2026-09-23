@@ -3,7 +3,7 @@ import type { Certifications } from './types'
 export const certifications: Certifications = {
   section: {
     ancre: 'certifications',
-    label: '07 — Certifications',
+    label: 'Certifications',
     titre: 'Certifications',
     titreAccent: 'cations',
     sousTitre: 'Compétences validées par des organismes reconnus.',
@@ -39,7 +39,7 @@ export const certifications: Certifications = {
       organisme: 'CNIL',
       detail: 'RGPD : les essentiels',
       statut: 'en-cours', // TODO(wladimir): toujours en cours ?
-      image: { src: 'certs/MOOC_RGPD.png', alt: 'MOOC CNIL — RGPD' },
+      image: { src: 'certs/MOOC_RGPD.png', alt: 'MOOC CNIL : RGPD' },
       tags: ['RGPD', 'Protection des données'],
     },
     {
@@ -48,16 +48,16 @@ export const certifications: Certifications = {
       organisme: 'ANSSI',
       detail: 'Les bases de la cybersécurité',
       statut: 'obtenue', // TODO(wladimir): statut non précisé sur l'ancien site (obtenu ?)
-      image: { src: 'certs/SecNum.jpeg', alt: 'MOOC SecNumAcadémie — ANSSI' },
+      image: { src: 'certs/SecNum.jpeg', alt: 'MOOC SecNumAcadémie (ANSSI)' },
       tags: ['Cybersécurité', 'ANSSI', 'SecNum'],
     },
     {
       id: 'mooc-ia',
-      nom: "MOOC — Les fondamentaux de l'IA",
+      nom: "MOOC : Les fondamentaux de l'IA",
       organisme: 'CNFPT',
       detail: "Principes de base de l'IA",
       statut: 'obtenue', // TODO(wladimir): statut non précisé sur l'ancien site (obtenu ?)
-      image: { src: 'certs/MOOC_IA.jpg', alt: "MOOC — Les fondamentaux de l'IA" },
+      image: { src: 'certs/MOOC_IA.jpg', alt: "MOOC : Les fondamentaux de l'IA" },
       tags: ['Intelligence Artificielle', 'Machine Learning', 'MOOC'],
     },
     {

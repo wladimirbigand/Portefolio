@@ -3,7 +3,7 @@ import type { Contact } from './types'
 export const contact: Contact = {
   section: {
     ancre: 'contact',
-    label: '09 — Contact',
+    label: 'Contact',
     titre: 'Travaillons ensemble',
     titreAccent: 'ensemble',
   },

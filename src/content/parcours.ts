@@ -3,7 +3,7 @@ import type { Parcours } from './types'
 export const parcours: Parcours = {
   section: {
     ancre: 'parcours',
-    label: '01 — Parcours',
+    label: 'Parcours',
     titre: 'Mon parcours',
     titreAccent: 'parcours',
     sousTitre: 'Mon parcours de formation, mes projets réalisés et mes certifications.',
@@ -12,8 +12,8 @@ export const parcours: Parcours = {
   etapes: [
     {
       id: 'bts-sio',
-      periode: '2025 — Maintenant',
-      titre: 'BTS SIO — Option SISR',
+      periode: '2025 – maintenant',
+      titre: 'BTS SIO · Option SISR',
       // TODO(wladimir): préciser « en alternance au Campus Ermitage / Lot-et-Garonne Numérique » ?
       description: 'Réseau, systèmes, sécurité.',
       enCours: true,
@@ -21,7 +21,7 @@ export const parcours: Parcours = {
     {
       id: 'esiea',
       periode: '2023 – 2025',
-      titre: 'ESIEA — Campus Numérique 47, Agen',
+      titre: 'ESIEA · Campus Numérique 47, Agen',
       organisation: 'Étudiant Informatique',
       groupes: [
         {
@@ -60,8 +60,8 @@ export const parcours: Parcours = {
     {
       id: 'bac',
       periode: '2021 – 2023',
-      titre: 'Institution Sainte-Catherine — Villeneuve-sur-Lot',
-      description: 'Baccalauréat Technologique — Énergie & Environnement.',
+      titre: 'Institution Sainte-Catherine, Villeneuve-sur-Lot',
+      description: 'Baccalauréat technologique : Énergie & Environnement.',
     },
   ],
 }

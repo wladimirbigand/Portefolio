@@ -21,6 +21,8 @@
 - Aucune nouvelle dépendance sans validation explicite.
 - Ne jamais inventer de détail technique sur les réalisations : utiliser `TODO(wladimir)`.
 - Portfolio public : aucune donnée d'infrastructure réelle de l'employeur (IP, VLAN IDs, noms d'hôtes, domaines internes) dans le contenu ou les images. Toute capture/schéma doit être anonymisé.
+- Numérotation des sections : jamais stockée dans `src/content/`. Chaque layout l'affiche ou non, calculée depuis l'ordre de `site.navigation` (`src/lib/sections.ts`).
+- Tiret cadratin (—) : autorisé dans le texte courant (incises, typographie française), interdit comme séparateur décoratif dans les libellés, la nav, les titres courts et le footer (utiliser `·`, `:`, une virgule ou une mise en page). Plages de dates : tiret demi-cadratin (`2023 – 2025`).
 - Durée du mode Présentation : uniquement `site.presentation.dureeMinutes` (`src/content/site.ts`), jamais codée en dur ailleurs.
 - Icônes : lucide-react uniquement. Animations : Motion uniquement (pas de lib d'animation CSS tierce).
 - Composants : un composant par fichier, props typées, pas de `any`.

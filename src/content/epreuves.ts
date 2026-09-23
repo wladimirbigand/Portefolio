@@ -3,7 +3,7 @@ import type { Epreuves } from './types'
 export const epreuves: Epreuves = {
   section: {
     ancre: 'epreuves',
-    label: '04 — Épreuves',
+    label: 'Épreuves',
     titre: 'Épreuves BTS SIO',
     titreAccent: 'BTS SIO',
     sousTitre:

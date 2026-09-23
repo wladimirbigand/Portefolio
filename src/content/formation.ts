@@ -3,7 +3,7 @@ import type { Formation } from './types'
 export const formation: Formation = {
   section: {
     ancre: 'formation',
-    label: '02 — Formation',
+    label: 'Formation',
     titre: 'Campus Ermitage',
     titreAccent: 'Ermitage',
     sousTitre:
