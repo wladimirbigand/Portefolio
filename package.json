@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "apercu": "node scripts/generer-apercu.mjs",
     "oral": "npm run build && npm run oral:servir",
-    "oral:servir": "vite preview --host 127.0.0.1 --port 4173 --strictPort --open /Portefolio/?oral"
+    "oral:servir": "vite preview --host 127.0.0.1 --port 4173 --strictPort --open /Portefolio/"
   },
   "dependencies": {
     "@fontsource-variable/martian-mono": "^5.3.0",
