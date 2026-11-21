@@ -1,0 +1,32 @@
+# Le dépôt est public : il ne contient que ce dont le site, son build et le workflow ont besoin.
+# Tout ce qui suit reste sur le disque, hors du dépôt.
+
+# Dépendances et build
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Outils de travail : Claude Code (réglages, skills), Playwright
+/.claude/
+/skills-lock.json
+/CLAUDE.md
+.playwright/
+.playwright-cli/
+
+# Documents de travail : direction artistique, guide de l'oral, notes de contenu, brouillon des fiches
+/DESIGN.md
+/design/
+/ORAL.md
+/CONTENU-VALIDE.md
+/CONTENU-A-METTRE-A-JOUR.md
+/FICHES-CONTENU.md
+
+# Captures de contrôle (Playwright). Les images du site, elles, sont dans src/assets/captures/.
+/captures/
+
+# Scripts ponctuels (portrait allégé, image de partage) : le build ne les lance pas,
+# leurs résultats (src/assets/photo-detouree.webp, public/apercu.png) sont dans le dépôt.
+/scripts/
+
+# Ancien site : référence de contenu seulement (attestations, ancienne photo, ancien PDF).
+/legacy/

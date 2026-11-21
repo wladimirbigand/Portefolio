@@ -1,0 +1,2364 @@
+/*
+ * DA « trame » — tokens, structure et composants. Référence : DESIGN.md (racine).
+ * Préfixe des classes : `.p-`. Tokens : `--p-*`.
+ *
+ * Principe de mise en page : la trame (toile fixe, plein écran) est derrière le contenu.
+ * Chaque section garde une boîte vide, la « réserve » (`.p-reserve`, `.p-portrait`), où les points
+ * viennent se composer. Aucun texte n'est donc jamais posé sur les points.
+ */
+.piste.da-trame {
+  --p-fond: #f3f3f1;
+  --p-surface: #e5e5e2;
+  --p-encre: #0a0a0b;
+  --p-encre-2: #2c2c2f;
+  --p-filet: #0a0a0b;
+  --p-accent: #0b3bd0;
+  --p-sur-accent: #ffffff;
+  /*
+   * Second accent, un vermillon, et deux teintes douces pour les fonds des pictos et des cartes.
+   * Le cobalt reste la couleur des actions ; le vermillon ne porte que des pictos et des repères.
+   */
+  --p-accent-2: #8f2a06;
+  --p-teinte-1: #dbe3fa;
+  --p-teinte-2: #f8dfd0;
+  --p-carte-1: #e9edf5;
+  --p-carte-2: #f5ebe4;
+  --p-embleme-1: var(--p-teinte-1);
+  --p-embleme-2: var(--p-teinte-2);
+
+  --p-titre: 'Schibsted Grotesk Variable', 'Arial Black', system-ui, sans-serif;
+  --p-texte: 'Schibsted Grotesk Variable', Arial, system-ui, sans-serif;
+  --p-mono: 'Martian Mono Variable', ui-monospace, Consolas, monospace;
+
+  --p-barre: 3.75rem;
+  --p-marge: clamp(1.25rem, 4vw, 3rem);
+  --p-petit: max(0.9rem, 16px);
+  --p-epais: 2px;
+
+  position: relative;
+  min-height: 100vh;
+  background: var(--p-fond);
+  color: var(--p-encre);
+  font-family: var(--p-texte);
+  font-weight: 400;
+  line-height: 1.6;
+  overflow-x: clip;
+}
+[data-theme='dark'] .piste.da-trame {
+  --p-fond: #0b0b0c;
+  --p-surface: #18181a;
+  --p-encre: #f3f3f1;
+  --p-encre-2: #d2d2ce;
+  --p-filet: #f3f3f1;
+  --p-accent: #8eaeff;
+  --p-sur-accent: #0b0b0c;
+  --p-accent-2: #ffa877;
+  --p-teinte-1: #141d3d;
+  --p-teinte-2: #3a1d10;
+  --p-carte-1: #0f1220;
+  --p-carte-2: #1e120e;
+}
+html:has(.da-trame) {
+  background: #f3f3f1;
+  scroll-padding-top: 3.75rem;
+}
+html[data-theme='dark']:has(.da-trame) {
+  background: #0b0b0c;
+}
+
+.piste ul,
+.piste ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.piste p,
+.piste h1,
+.piste h2,
+.piste h3,
+.piste h4 {
+  margin: 0;
+}
+.piste :focus-visible {
+  outline: 3px solid var(--p-accent);
+  outline-offset: 3px;
+}
+
+/* ---------- La trame : toile fixe derrière le contenu ---------- */
+.p-toile {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.p-contenu {
+  position: relative;
+  z-index: 1;
+}
+/* Réserve : boîte vide de la mise en page, où une figure se compose. */
+.p-reserve {
+  position: relative;
+  display: block;
+  min-width: 0;
+}
+/*
+ * Appareil tactile : une toile par réserve, dans le flux (voir `TramePosee.tsx`). Elle défile avec la
+ * page, sans être redessinée. Sa place et sa taille sont réglées par le composant ; elle passe sous
+ * le texte (le portrait, en se dispersant, déborde de sa réserve).
+ */
+.p-toile-posee {
+  position: absolute;
+  z-index: -1;
+  display: block;
+  pointer-events: none;
+}
+
+/* ---------- Curseur en point ---------- */
+html[data-curseur='point'],
+html[data-curseur='point'] * {
+  cursor: none !important;
+}
+.p-curseur {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  /* Hors écran tant que la souris n'a pas bougé ; ensuite, position écrite par pointermove. */
+  transform: translate3d(-100px, -100px, 0);
+  /* Blanc en différence : sombre sur fond clair, clair sur fond sombre, visible sur tout aplat. */
+  mix-blend-mode: difference;
+}
+.p-curseur-point {
+  position: absolute;
+  left: -5px;
+  top: -5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+/* ---------- Barre de navigation ---------- */
+.p-barre {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  height: var(--p-barre);
+  padding: 0 var(--p-marge);
+  background: var(--p-fond);
+  border-bottom: 1px solid var(--p-filet);
+}
+.p-logo {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-family: var(--p-titre);
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--p-encre);
+  text-decoration: none;
+}
+.p-compteur {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: var(--p-petit);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.p-compteur-masque {
+  display: inline-block;
+  overflow: clip;
+  font-weight: 700;
+  color: var(--p-accent);
+}
+.p-compteur-numero {
+  display: inline-block;
+}
+/* Mode oral : chronomètre de l'orateur, dans le coin bas gauche (dans la marge sur bureau).
+   Outil personnel, volontairement atténué : hors des règles de taille et de contraste du jury. */
+.p-chrono {
+  position: fixed;
+  left: 0.6rem;
+  bottom: 0.45rem;
+  z-index: 30;
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: 14px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: color-mix(in srgb, var(--p-encre) 50%, var(--p-fond));
+  white-space: nowrap;
+  pointer-events: none;
+}
+.p-nav,
+.p-barre-fin {
+  display: none;
+}
+.p-nav ul {
+  display: flex;
+  gap: 0.1rem;
+}
+.p-nav a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  /* Neuf entrées : elles tiennent en 1280 px, barre de défilement comprise. */
+  padding: 0 0.4rem;
+  font-size: var(--p-petit);
+  font-weight: 500;
+  color: var(--p-encre);
+  text-decoration: none;
+}
+.p-nav a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.4em;
+}
+.p-nav a[aria-current] {
+  font-weight: 700;
+}
+.p-nav-actif {
+  position: absolute;
+  left: 0.4rem;
+  right: 0.4rem;
+  bottom: 0.3rem;
+  height: 3px;
+  background: var(--p-accent);
+}
+.p-menu-bouton {
+  margin-left: auto;
+}
+.p-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: calc(100dvh - var(--p-barre));
+  overflow-y: auto;
+  /* Arrivé en bout de menu, le défilement ne passe pas à la page derrière. */
+  overscroll-behavior: contain;
+  padding: 0.5rem var(--p-marge) 1.5rem;
+  background: var(--p-fond);
+  border-bottom: var(--p-epais) solid var(--p-encre);
+}
+.p-menu[hidden] {
+  display: none;
+}
+.p-menu ul {
+  margin-bottom: 1.25rem;
+}
+.p-menu li a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 3.25rem;
+  border-bottom: 1px solid var(--p-filet);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--p-encre);
+  text-decoration: none;
+}
+.p-menu li a[aria-current] {
+  font-weight: 700;
+}
+.p-menu-numero {
+  width: 2.25rem;
+  font-family: var(--p-mono);
+  font-weight: 600;
+  color: var(--p-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Boutons et liens ---------- */
+.p-bouton,
+.p-lien,
+.p-nav a,
+.p-menu a,
+.p-logo {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: color-mix(in srgb, var(--p-accent) 25%, transparent);
+}
+.p-bouton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0 1.15rem;
+  border: var(--p-epais) solid var(--p-encre);
+  border-radius: 0;
+  background: transparent;
+  color: var(--p-encre);
+  font: inherit;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
+}
+.p-bouton:hover {
+  background: var(--p-encre);
+  color: var(--p-fond);
+}
+.p-bouton-plein {
+  background: var(--p-accent);
+  border-color: var(--p-accent);
+  color: var(--p-sur-accent);
+}
+.p-bouton-plein:hover {
+  background: var(--p-encre);
+  border-color: var(--p-encre);
+  color: var(--p-fond);
+}
+.p-bouton-discret {
+  font-size: var(--p-petit);
+}
+.p-lien {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.75rem;
+  color: var(--p-encre);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--p-accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.28em;
+}
+.p-lien:hover {
+  text-decoration-thickness: 4px;
+}
+.p-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+/* ---------- Filets et repères numérotés ---------- */
+.p-filet {
+  display: block;
+  height: 1px;
+  background: var(--p-filet);
+  transform-origin: left center;
+}
+.p-numero {
+  position: relative;
+  display: inline-block;
+  font-family: var(--p-titre);
+  font-size: clamp(3.25rem, 9vw, 5.75rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--p-encre);
+  /* Chiffres proportionnels : ceux que la toile sait retracer à l'identique (passage en particules). */
+}
+/* Le chiffre glisse dans son masque à l'arrivée. */
+.p-numero-masque {
+  display: inline-block;
+  overflow: clip;
+  vertical-align: top;
+}
+.p-numero-masque > span {
+  display: inline-block;
+}
+
+/* ---------- Accueil : une seule composition, le portrait et le nom ---------- */
+.p-accueil {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.25rem var(--p-marge) 3rem;
+}
+.p-accueil-texte {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  min-width: 0;
+}
+.p-repere {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: var(--p-petit);
+  font-weight: 500;
+  color: var(--p-encre-2);
+}
+.p-repere-numero {
+  font-weight: 700;
+  color: var(--p-encre);
+  font-variant-numeric: tabular-nums;
+}
+.p-nom {
+  font-family: var(--p-titre);
+  font-size: clamp(2.9rem, 14vw, 5.4rem);
+  font-weight: 800;
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+}
+.p-nom-masque {
+  /* Un mot par ligne : le prénom, puis le nom. */
+  display: block;
+  width: fit-content;
+  overflow: clip;
+  /* Le masque laisse passer les jambages (g) sans changer l'interligne. */
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+.p-nom-masque > span {
+  display: inline-block;
+}
+/* Le titre : le premier rôle en grand, les autres en ligne de libellés. */
+.p-roles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem 1.25rem;
+}
+.p-roles li {
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--p-encre-2);
+}
+.p-roles li:first-child {
+  flex-basis: 100%;
+  font-family: var(--p-titre);
+  font-stretch: 100%;
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  color: var(--p-encre);
+}
+.p-presentation {
+  max-width: 34rem;
+}
+.p-accueil-liens {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 2rem;
+}
+.p-reseaux {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.5rem;
+}
+.p-accueil-portrait {
+  position: relative;
+  order: -1;
+  align-self: center;
+  width: min(74vw, 19rem);
+  aspect-ratio: 2 / 3;
+}
+.p-portrait {
+  position: absolute;
+  inset: 0;
+  -webkit-user-select: none;
+  user-select: none;
+  /*
+   * Un appui bref lance l'onde, un double appui bascule vers la photo : `manipulation` garde le
+   * défilement et le pincement, et écarte le zoom du double appui. Ni sélection ni menu d'appui long.
+   */
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.p-portrait-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* Même vignette ovale que la trame : la photo se dissout vers les bords. */
+  -webkit-mask-image: radial-gradient(ellipse closest-side, #000 80%, transparent 104%);
+  mask-image: radial-gradient(ellipse closest-side, #000 80%, transparent 104%);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ---------- Sections ---------- */
+/* Chaque section a la hauteur de son contenu. Entre deux sections : le même blanc, puis le filet de la suivante. */
+.p-section {
+  padding: 1.5rem var(--p-marge) 3.5rem;
+}
+.p-entete {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem 2rem;
+  margin-bottom: 1.5rem;
+}
+.p-titre {
+  font-family: var(--p-titre);
+  font-size: clamp(1.9rem, 6.2vw, 3rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+.p-chapo {
+  margin-top: 0.6rem !important;
+  max-width: 42rem;
+  color: var(--p-encre-2);
+}
+/* Bande libre de l'en-tête des épreuves : la figure s'y compose en largeur. */
+.p-reserve-bande {
+  height: 6.5rem;
+}
+
+/* ---------- Épreuves : une ligne par épreuve ---------- */
+.p-epreuve {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem 2rem;
+  padding-bottom: 1.5rem;
+}
+.p-epreuve > .p-filet {
+  margin-bottom: 0.4rem;
+}
+.p-epreuve-code {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.p-epreuve-mot {
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: var(--p-petit);
+  font-weight: 500;
+  color: var(--p-encre-2);
+}
+.p-epreuve-sigle {
+  font-family: var(--p-titre);
+  font-size: 2.3rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.p-epreuve-texte {
+  max-width: 36rem;
+}
+.p-epreuve-intitule {
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 0.3rem;
+  text-wrap: balance;
+}
+/* Documents d'une épreuve : un bloc par document, séparés par un filet léger. */
+.p-documents {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.p-document {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  min-width: 0;
+}
+.p-document + .p-document {
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--p-filet);
+}
+.p-document-label {
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: var(--p-petit);
+  font-weight: 700;
+}
+.p-document-titre {
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+.p-document .p-actions {
+  align-items: center;
+  gap: 0.4rem 0.9rem;
+}
+.p-etat {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  font-weight: 600;
+}
+.p-etat-marque {
+  flex: none;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: var(--p-accent);
+  border: 2px solid var(--p-accent);
+}
+/* L'état se lit toujours en texte ; la marque pleine ou creuse ne fait que le doubler. */
+.p-etat-attente .p-etat-marque {
+  background: transparent;
+  border-color: var(--p-encre);
+}
+.p-etat-detail {
+  display: block;
+  font-weight: 400;
+  color: var(--p-encre-2);
+}
+
+
+.p-pied {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem 2rem;
+  padding: 1.25rem var(--p-marge) 2.5rem;
+  border-top: 1px solid var(--p-filet);
+}
+
+/* ---------- À partir de 704 px : l'accueil tient en un écran, les lignes passent en colonnes ---------- */
+@media (min-width: 44em) {
+  .p-accueil {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0 clamp(1.5rem, 4vw, 4rem);
+    min-height: calc(100svh - var(--p-barre));
+    padding: 1.1rem var(--p-marge) 1.1rem;
+  }
+  .p-accueil-texte {
+    gap: clamp(0.7rem, 2.2vh, 1.5rem);
+  }
+  .p-nom {
+    font-size: clamp(3.2rem, min(8.6vw, 16.5vh), 8rem);
+  }
+  /* Le portrait prend toute la hauteur de l'écran, sans dépasser 44 % de la largeur. */
+  .p-accueil-portrait {
+    order: 0;
+    width: auto;
+    height: min(100svh - var(--p-barre) - 2.2rem, 66vw, 56rem);
+  }
+
+  .p-entete {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+  }
+  .p-entete > .p-filet {
+    grid-column: 1 / -1;
+  }
+  .p-entete-figure {
+    grid-template-columns: auto minmax(0, 1.5fr) minmax(0, 1fr);
+  }
+  .p-reserve-bande {
+    align-self: stretch;
+    height: auto;
+    min-height: 6.5rem;
+  }
+  .p-epreuve {
+    grid-template-columns: 6.25rem minmax(0, 1fr) minmax(15.5rem, 1.3fr);
+    padding-bottom: 0.9rem;
+  }
+  .p-epreuve > .p-filet {
+    grid-column: 1 / -1;
+  }
+  .p-epreuve > .p-filet {
+    margin-bottom: 0.35rem;
+  }
+}
+
+@media (min-width: 64em) {
+  .p-section {
+    padding: 1.5rem var(--p-marge) 5rem;
+  }
+  .p-entete {
+    margin-bottom: 0.9rem;
+  }
+  .p-pied {
+    padding-bottom: 1.5rem;
+  }
+}
+
+/* ---------- Grand écran : navigation en ligne ---------- */
+@media (min-width: 75em) {
+  .p-nav {
+    display: block;
+    margin-left: auto;
+  }
+  .p-barre-fin {
+    display: block;
+  }
+  .p-menu-bouton,
+  .p-menu {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   Étapes 3b et 3c : Parcours, Formation, Entreprise, Projets, fenêtre superposée
+   ========================================================================== */
+
+/* Libellé en chasse fixe : nom d'un champ, titre d'un bloc secondaire, rubrique d'une fiche. */
+.p-label,
+.p-fiche dt,
+.p-fiche-reperes dt {
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: var(--p-petit);
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--p-encre-2);
+}
+.p-label {
+  font-weight: 700;
+  color: var(--p-encre);
+}
+/* Marque pleine en encre : une étape passée, une réalisation terminée. */
+.p-etat-fait .p-etat-marque {
+  background: var(--p-encre);
+  border-color: var(--p-encre);
+}
+
+/* ---------- Plaque d'un logo : aplat blanc, pour garder ses couleurs dans les deux thèmes ---------- */
+.p-plaque {
+  display: inline-flex;
+  justify-self: start;
+  align-self: start;
+  padding: 0.45rem 0.7rem;
+  background: #fff;
+  border: 1px solid var(--p-filet);
+}
+.p-plaque img {
+  display: block;
+  width: auto;
+  height: 3rem;
+}
+
+/* ---------- Parcours : quatre étapes empilées, la figure dans un rail à leur gauche ---------- */
+.p-parcours-corps {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  gap: 0 0.75rem;
+}
+/* Le rail a la hauteur de la liste : chaque saut de la route est à la hauteur de son étape. */
+.p-reserve-parcours {
+  align-self: stretch;
+}
+.p-etape {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.25rem 2rem;
+  padding: 0.75rem 0 1.25rem;
+  border-top: 1px solid var(--p-filet);
+}
+.p-etape-repere {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.1rem 1rem;
+}
+.p-etape-periode,
+.p-etape-titre {
+  font-family: var(--p-titre);
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+.p-etape-periode {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.p-etape-etat {
+  white-space: nowrap;
+}
+.p-etape-titre {
+  text-wrap: balance;
+}
+.p-etape-texte {
+  min-width: 0;
+}
+.p-etape-lieu {
+  color: var(--p-encre-2);
+}
+/* Le nom d'un organisme : un nom propre, en gras. */
+.p-ecole-nom {
+  font-weight: 700;
+  color: var(--p-encre);
+}
+.p-etape-description {
+  max-width: 48rem;
+  text-wrap: pretty;
+}
+.p-etape-liens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.5rem;
+}
+
+/* ---------- Formation : la figure, ce que j'y prépare, les formations ---------- */
+.p-formation-corps {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+}
+/* Le rail de la figure, à gauche de la liste : chaque poste est à la hauteur de sa formation. */
+.p-formations-corps {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  gap: 0 1rem;
+  margin-top: 0.5rem;
+}
+.p-reserve-formation {
+  align-self: stretch;
+}
+.p-formations li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0 1rem;
+  align-items: baseline;
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--p-filet);
+  line-height: 1.4;
+}
+.p-formations li:last-child {
+  border-bottom: 1px solid var(--p-filet);
+}
+/* Ma formation : le trait d'accent de la ligne lue. */
+.p-formations li[data-etat='suivie'] {
+  margin-left: -0.75rem;
+  padding-left: 0.75rem;
+  box-shadow: inset 4px 0 0 var(--p-accent);
+}
+.p-formations li[data-etat='suivie'] .p-formation-nom {
+  font-weight: 700;
+}
+.p-formation-sigle {
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: var(--p-petit);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.p-formation-precision {
+  font-weight: 400;
+  color: var(--p-encre-2);
+}
+.p-formations .p-etat {
+  white-space: nowrap;
+}
+/* ---------- Entreprise : la fiche, puis les réalisations mises en avant, en cartes ---------- */
+.p-entreprise-corps {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+}
+.p-fiche dl {
+  margin: 0;
+}
+.p-fiche dd {
+  margin: 0;
+  min-width: 0;
+}
+.p-fiche dl > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.1rem 1.5rem;
+  padding: 0.65rem 0;
+  border-top: 1px solid var(--p-filet);
+}
+.p-fiche dl > div:last-child {
+  border-bottom: 1px solid var(--p-filet);
+}
+.p-fiche > .p-lien {
+  margin-top: 0.3rem;
+}
+/* Environnement technique : une liste en ligne, un point d'accent entre deux outils. */
+.p-environnement {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.55rem;
+}
+.p-environnement li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.p-environnement-point {
+  flex: none;
+  width: 0.3rem;
+  height: 0.3rem;
+  border-radius: 50%;
+  background: var(--p-accent);
+}
+.p-missions-tete {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 1.5rem;
+  margin-bottom: 0.35rem;
+}
+.p-cartes {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+}
+.p-cartes > li {
+  min-width: 0;
+}
+.p-mission-numero,
+.p-real-numero {
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: var(--p-petit);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.p-mission-numero {
+  color: var(--p-accent);
+}
+.p-carte:hover .p-carte-titre,
+.p-real-bouton:hover .p-real-titre,
+.p-voisine:not([aria-disabled]):hover .p-voisine-titre {
+  text-decoration: underline;
+  text-decoration-color: var(--p-accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.28em;
+}
+.p-reserve-case {
+  min-height: 6rem;
+}
+
+/* ---------- Projets : filtres, groupes, une ligne par réalisation ---------- */
+.p-filtres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  grid-column: 1 / -1;
+}
+.p-filtre {
+  padding: 0 0.9rem;
+}
+.p-filtre:hover {
+  background: var(--p-surface);
+  color: var(--p-encre);
+}
+.p-filtre[aria-pressed='true'] {
+  background: var(--p-encre);
+  color: var(--p-fond);
+}
+.p-projets-corps {
+  display: flex;
+  flex-direction: column;
+}
+/* Mobile et tablette : la figure tient dans une bande, au-dessus de la liste. */
+.p-reserve-projets {
+  order: -1;
+  height: 5.5rem;
+  margin-bottom: 1rem;
+}
+.p-projets-liste {
+  min-width: 0;
+}
+/* Un groupe par rubrique du tableau de synthèse : un filet épais, l'intitulé, puis les lignes. */
+.p-groupe {
+  border-top: var(--p-epais) solid var(--p-encre);
+}
+.p-groupe-titre {
+  padding: 0.7rem 0 0.55rem;
+  font-family: var(--p-titre);
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.p-real {
+  border-top: 1px solid var(--p-filet);
+  /* Atteinte par son ancre ou par le retour du focus : son contour ne passe pas sous la barre. */
+  scroll-margin-top: 0.5rem;
+}
+.piste .p-real-entete {
+  font: inherit;
+}
+/* La ligne entière est le lien qui ouvre la fiche. */
+.p-real-bouton {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr) 1.25rem;
+  gap: 0.1rem 0.9rem;
+  align-items: baseline;
+  min-height: 2.75rem;
+  padding: 0.7rem 0;
+  color: inherit;
+  text-decoration: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: color-mix(in srgb, var(--p-accent) 25%, transparent);
+}
+.p-real-titre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.1rem 0.9rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+/* L'état, écrit en toutes lettres dans la ligne : marque pleine (en cours) ou creuse (en suspens). */
+.p-real-statut {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: var(--p-petit);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.p-real-statut .p-etat-marque {
+  width: 0.6rem;
+  height: 0.6rem;
+}
+.p-real-statut[data-statut='en-suspens'] .p-etat-marque {
+  background: transparent;
+  border-color: var(--p-encre);
+}
+/* Deux contextes : le second s'ajoute au premier (« Campus Ermitage + LGN »). */
+.p-real-contexte {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.6rem;
+}
+.p-real-contexte span + span::before {
+  content: '+ ';
+}
+.p-real-meta {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.25rem;
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: var(--p-petit);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.45;
+  color: var(--p-encre-2);
+}
+/* Flèche : la ligne ouvre une fiche. */
+.p-real-signe {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+  font-weight: 700;
+  transition: transform 0.18s ease;
+}
+.p-real-bouton:hover .p-real-signe {
+  transform: translateX(4px);
+}
+/* Avant le BTS : bloc compact, nettement secondaire. */
+.p-avant {
+  margin-top: 2.5rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--p-filet);
+  color: var(--p-encre-2);
+}
+.p-avant ul {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem 2.5rem;
+  margin-top: 0.6rem;
+}
+.piste .p-avant h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--p-encre);
+}
+.p-avant-precisions {
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: var(--p-petit);
+  font-weight: 500;
+}
+
+/* ---------- Fenêtre superposée : un <dialog> natif, plein écran, qui porte son fond et son cadre ---------- */
+.p-fenetre {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--p-encre);
+  overflow: hidden;
+}
+.p-fenetre[open] {
+  display: grid;
+  place-items: center;
+}
+/* Le fond est un élément de la fenêtre (il s'anime et reçoit le clic) : le voile natif reste vide. */
+.p-fenetre::backdrop {
+  background: transparent;
+}
+.p-fenetre-fond {
+  position: absolute;
+  inset: 0;
+  background: rgb(10 10 11 / 0.66);
+}
+[data-theme='dark'] .p-fenetre-fond {
+  background: rgb(0 0 0 / 0.74);
+}
+.p-fenetre-cadre {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100dvh;
+  /* Plein écran sur mobile : les zones sûres (encoche, barre de geste) restent libres. */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
+    env(safe-area-inset-left);
+  background: var(--p-fond);
+}
+.p-fenetre-barre,
+.p-fenetre-pied {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 0.5rem var(--p-marge-fenetre, 1rem);
+}
+.p-fenetre-barre {
+  border-bottom: 1px solid var(--p-filet);
+}
+.p-fenetre-pied {
+  border-top: 1px solid var(--p-filet);
+}
+.p-fenetre-titre {
+  min-width: 0;
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: var(--p-petit);
+  font-weight: 700;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+}
+/* Les actions restent sur une ligne ; c'est le titre qui se replie s'il manque de place. */
+.p-fenetre-actions {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.65rem;
+}
+.p-fenetre-actions .p-lien {
+  margin-right: 0.35rem;
+}
+/* Aperçu PDF : le document prend toute la place sous la barre. */
+.p-fenetre-document {
+  flex: 1;
+  display: block;
+  width: 100%;
+  min-height: 0;
+  border: 0;
+  background: var(--p-surface);
+}
+.p-fenetre-document p {
+  padding: 1.5rem;
+}
+.p-fenetre-corps {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  /* Arrivé en bout de fiche, le défilement ne passe pas à la page derrière. */
+  overscroll-behavior: contain;
+  padding: 1.1rem var(--p-marge-fenetre, 1rem) 1.5rem;
+}
+
+/* ---------- Fiche de réalisation ---------- */
+.p-fiche-realisation {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0 clamp(1.5rem, 4vw, 3.5rem);
+}
+.p-fiche-entete {
+  display: contents;
+}
+/* L'intitulé officiel, mot pour mot : c'est lui que le jury compare au tableau de synthèse. */
+.p-fiche-intitule {
+  max-width: 54rem;
+  margin: 0.2rem 0 1.1rem !important;
+  font-family: var(--p-titre);
+  font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+  font-weight: 800;
+  line-height: 1.22;
+  letter-spacing: -0.03em;
+  text-wrap: pretty;
+}
+.p-fiche-reperes {
+  margin: 0;
+}
+.p-fiche-reperes > div {
+  padding: 0.6rem 0;
+  border-top: 1px solid var(--p-filet);
+}
+.p-fiche-reperes dd {
+  margin: 0;
+}
+.p-fiche-a-venir,
+.p-rubrique {
+  padding: 0.65rem 0 1.1rem;
+  border-top: 1px solid var(--p-filet);
+}
+.p-rubrique > .p-label {
+  margin-bottom: 0.35rem;
+}
+.p-rubrique p {
+  max-width: 42rem;
+  text-wrap: pretty;
+}
+/* Ce que j'ai fait : une action par ligne, un point de trame devant. */
+.p-fiche-actions li {
+  position: relative;
+  max-width: 42rem;
+  padding-left: 1.25rem;
+}
+.p-fiche-actions li + li {
+  margin-top: 0.3rem;
+}
+.p-fiche-actions li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--p-encre);
+}
+.p-preuves {
+  display: grid;
+  gap: 1.1rem;
+}
+.p-galerie {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: 1rem;
+}
+.p-galerie figure {
+  margin: 0;
+}
+.p-galerie img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--p-filet);
+}
+.p-galerie figcaption {
+  margin-top: 0.3rem;
+  color: var(--p-encre-2);
+  line-height: 1.4;
+}
+/* Liens publics : un par ligne, sa précision éventuelle dessous. */
+.p-fiche-liens {
+  display: grid;
+  gap: 0.35rem;
+}
+.p-fiche-lien-precision {
+  display: block;
+  max-width: 42rem;
+  color: var(--p-encre-2);
+  text-wrap: pretty;
+}
+/* Fiche voisine : le sens, et le titre court de la réalisation où le bouton mène. */
+.p-voisine {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 0;
+  min-height: 2.75rem;
+  padding: 0.2rem 0.4rem;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--p-encre);
+  font: inherit;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.p-voisine-suivante {
+  flex-direction: row-reverse;
+  margin-left: auto;
+  text-align: right;
+}
+.p-voisine-fleche {
+  font-weight: 700;
+  transition: transform 0.18s ease;
+}
+.p-voisine-texte {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.p-voisine-sens {
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: var(--p-petit);
+  font-weight: 500;
+  color: var(--p-encre-2);
+}
+.p-voisine-titre {
+  display: none;
+  font-weight: 700;
+}
+.p-voisine-precedente:not([aria-disabled]):hover .p-voisine-fleche {
+  transform: translateX(-4px);
+}
+.p-voisine-suivante:not([aria-disabled]):hover .p-voisine-fleche {
+  transform: translateX(4px);
+}
+/* En bout de liste : le bouton reste en place, sans flèche ni titre. */
+.p-voisine[aria-disabled='true'] {
+  cursor: default;
+}
+.p-voisine[aria-disabled='true'] .p-voisine-fleche {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p-real-signe,
+  .p-voisine-fleche {
+    transition: none;
+  }
+}
+
+@media (min-width: 44em) {
+  .p-entete-logo {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+  .p-plaque {
+    justify-self: end;
+  }
+  .p-parcours-corps {
+    grid-template-columns: 4rem minmax(0, 1fr);
+    gap: 0 1.25rem;
+  }
+  .p-formations-corps {
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+    gap: 0 1.25rem;
+  }
+  .p-etape {
+    grid-template-columns: 8.25rem minmax(0, 1fr);
+    align-items: start;
+  }
+  .p-etape-repere {
+    flex-direction: column;
+  }
+  .p-formations li {
+    grid-template-columns: 7.75rem minmax(0, 1fr) auto;
+  }
+  .p-cartes {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .p-avant ul {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  /* La fenêtre laisse voir la page autour d'elle ; son cadre porte un filet épais. */
+  .p-fenetre-cadre {
+    padding: 0;
+    width: calc(100vw - 2rem);
+    height: calc(100dvh - 2rem);
+    border: var(--p-epais) solid var(--p-encre);
+  }
+  .p-fenetre-fiche .p-fenetre-cadre {
+    width: min(100vw - 2rem, 68rem);
+    height: min(100dvh - 2rem, 46rem);
+  }
+  .p-voisine {
+    max-width: 48%;
+  }
+  .p-voisine-titre {
+    display: block;
+  }
+}
+
+@media (min-width: 64em) {
+  .p-parcours-corps {
+    grid-template-columns: minmax(9rem, 10.5rem) minmax(0, 1fr);
+    gap: 0 clamp(1.5rem, 3vw, 3rem);
+  }
+  /* Quatre étapes dans l'écran du jury (1280 × 720) : lignes resserrées. */
+  .p-etape {
+    grid-template-columns: 7.75rem minmax(0, 1fr);
+    padding: 0.45rem 0 0.6rem;
+  }
+  /* Formation : la fiche, puis les formations et leur rail. */
+  .p-formation-corps {
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.6fr);
+    gap: 1rem clamp(1.5rem, 3vw, 3rem);
+    align-items: start;
+  }
+  .p-formations-corps {
+    grid-template-columns: 6rem minmax(0, 1fr);
+    gap: 0 1.75rem;
+  }
+  .p-entreprise-corps {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+    gap: 0 clamp(1.5rem, 3vw, 3rem);
+    align-items: start;
+  }
+  .p-projets-corps {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(9rem, 12rem);
+    gap: 0 clamp(1.5rem, 3vw, 2.5rem);
+    align-items: start;
+  }
+  /* Réserve haute, à droite : elle reste à l'écran pendant la lecture de la liste. */
+  .p-reserve-projets {
+    order: 0;
+    position: sticky;
+    top: calc(var(--p-barre) + 1.5rem);
+    height: min(21rem, 100svh - var(--p-barre) - 3rem);
+    margin: 1rem 0 0;
+  }
+  .p-real-bouton {
+    grid-template-columns: 3rem minmax(0, 1fr) 12rem 9.75rem 1.25rem;
+    gap: 0 1.1rem;
+  }
+  .p-real-meta {
+    display: contents;
+  }
+  .p-real-signe {
+    grid-column: 5;
+  }
+  .p-fenetre-cadre {
+    --p-marge-fenetre: 1.5rem;
+  }
+  /* Fiche : les repères officiels à gauche, les rubriques à droite. */
+  .p-fiche-realisation {
+    grid-template-columns: 19.5rem minmax(0, 1fr);
+    align-items: start;
+  }
+  .p-fiche-entete > .p-label,
+  .p-fiche-intitule {
+    grid-column: 1 / -1;
+  }
+  .p-fiche-reperes > div:last-child {
+    border-bottom: 1px solid var(--p-filet);
+  }
+  /* Les repères restent à l'écran pendant la lecture des rubriques. */
+  .p-fiche-reperes {
+    position: sticky;
+    top: 0;
+  }
+}
+
+@media (min-width: 75em) {
+  /* Les filtres rejoignent la ligne du titre, à droite. */
+  .p-entete-filtres {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+  .p-entete-filtres .p-titre {
+    white-space: nowrap;
+  }
+  .p-filtres {
+    grid-column: auto;
+    align-self: end;
+    justify-content: flex-end;
+  }
+}
+
+/* ==========================================================================
+   Effets de texte : numéros et code en particules, titres qui se tordent
+   ========================================================================== */
+
+/* Un texte et, par-dessus, la toile qui le redessine en points. */
+.p-particules {
+  position: relative;
+  display: inline-block;
+  overflow: visible;
+}
+/* La toile déborde du texte : c'est la place des points déplacés (position réglée par le composant). */
+.p-particules-toile {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+.p-particules[data-particules='pret'] .p-particules-toile {
+  opacity: 1;
+  transition: none;
+}
+/* Numéros et emblèmes : nets au repos. Le fondu croisé entre le texte et sa toile est réglé image par
+   image par le composant (opacités en ligne, `data-particules='actif'`) : aucune transition CSS ici. */
+.p-particules[data-particules='actif'] .p-particules-toile {
+  transition: none;
+}
+/* Code : toujours en points. Le texte ne s'efface que lorsqu'ils sont dessinés ; il reste sélectionnable. */
+.p-particules[data-particules='pret'] .p-particules-texte {
+  color: transparent;
+}
+.p-particules .p-particules-texte::selection,
+.p-particules .p-particules-texte *::selection {
+  color: var(--p-sur-accent);
+  background: var(--p-accent);
+}
+
+/* Bloc de code (Compétences) : son libellé et le lien vers la fiche, puis le code en points. */
+.p-code {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0.55rem 0 0.9rem;
+  border-top: 1px solid var(--p-filet);
+}
+.p-code figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0 1.5rem;
+}
+.p-code-cadre {
+  min-width: 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding: 14px;
+  margin: -14px;
+}
+.p-code-texte {
+  margin: 0;
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: var(--p-petit);
+  font-weight: 500;
+  line-height: 1.55;
+  white-space: pre;
+}
+.p-code-texte code {
+  font: inherit;
+}
+
+/* Titre : chaque lettre est un bloc qui peut se tordre ; un mot ne se coupe pas. */
+.p-titre-tordu {
+  position: relative;
+  display: inline;
+}
+.p-mot {
+  display: inline-block;
+  white-space: nowrap;
+}
+.p-lettre {
+  display: inline-block;
+  transform-origin: 50% 85%;
+}
+/* Un calque par lettre seulement pendant la déformation. */
+.p-titre-tordu[data-tordu] .p-lettre {
+  will-change: transform;
+}
+
+/* ==========================================================================
+   Étape 3e : Compétences, Certifications, Veille, Contact, pied de page, palette
+   ========================================================================== */
+
+/* ---------- Compétences : une grille de groupes, le code près du groupe réseau, la figure en dernière case ---------- */
+.p-competences {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0 1.5rem;
+}
+.p-competence {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+  padding: 0.45rem 0 0.7rem;
+  border-top: 1px solid var(--p-filet);
+}
+/* Le chapô de Compétences tient sur une ligne en 1280 px : la grille garde toute la hauteur de l'écran. */
+.p-entete-large .p-chapo {
+  max-width: 50rem;
+}
+.p-competence-titre {
+  font-family: var(--p-titre);
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.p-competence .p-environnement {
+  line-height: 1.45;
+}
+/* Mobile : la figure tient dans une bande, au-dessus des groupes. */
+.p-reserve-competences {
+  order: -1;
+  height: 5.5rem;
+  margin-bottom: 0.75rem;
+}
+
+/* ---------- Certifications : une ligne par certification, son emblème en tête ---------- */
+.p-certifications-corps {
+  display: flex;
+  flex-direction: column;
+}
+.p-reserve-certifications {
+  order: -1;
+  height: 5.5rem;
+  margin-bottom: 1rem;
+}
+.p-certification {
+  display: grid;
+  grid-template-columns: 7.75rem minmax(0, 1fr);
+  gap: 0.2rem 1rem;
+  align-items: center;
+  padding: 0.7rem 0;
+  border-top: 1px solid var(--p-filet);
+}
+.p-certification:last-child {
+  border-bottom: 1px solid var(--p-filet);
+}
+.p-certification > :not(.p-embleme) {
+  grid-column: 2;
+}
+/* Emblème : le sigle dans un cadre à filet, comme une plaque. Il se défait en particules sous le curseur. */
+.p-embleme {
+  grid-row: 1 / span 3;
+  align-self: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  border: 1px solid var(--p-filet);
+}
+.p-embleme-sigle {
+  display: inline-block;
+  font-family: var(--p-titre);
+  font-size: 1.3rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+.p-certification-nom {
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.p-certification-score {
+  font-weight: 400;
+  white-space: nowrap;
+}
+.p-certification-organisme {
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: var(--p-petit);
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--p-encre-2);
+}
+.p-certification .p-etat {
+  white-space: nowrap;
+}
+.p-certification .p-bouton {
+  justify-self: start;
+}
+
+
+/* ---------- Contact : l'accroche, la liaison, les moyens de contact ---------- */
+.p-contact-corps {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+}
+.p-contact-accroche {
+  max-width: 27rem;
+  font-family: var(--p-titre);
+  font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+  font-weight: 800;
+  line-height: 1.22;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+/* Mobile et tablette : la liaison est couchée dans une bande, entre l'accroche et les moyens. */
+.p-reserve-contact {
+  height: 5rem;
+}
+/* La confirmation a sa ligne, toujours réservée : rien ne bouge quand elle apparaît. */
+.p-contact-confirmation {
+  flex-basis: 100%;
+  min-height: 1.6em;
+}
+.p-contact-confirmation .p-etat {
+  display: inline-flex;
+}
+.p-contact-moyens dd > .p-lien {
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Pied de page ---------- */
+.p-pied {
+  justify-content: space-between;
+  align-items: center;
+}
+.p-pied-mentions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.5rem;
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: var(--p-petit);
+  font-weight: 500;
+  color: var(--p-encre-2);
+}
+.p-pied-liens {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 2rem;
+}
+/* Seule indication visible de la palette : discrète, en bas de page. */
+.p-pied-palette {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--p-encre-2);
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: var(--p-petit);
+  font-weight: 500;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: color-mix(in srgb, var(--p-accent) 25%, transparent);
+}
+.p-pied-palette kbd {
+  padding: 0.05rem 0.4rem;
+  border: 1px solid var(--p-encre-2);
+  font: inherit;
+}
+.p-pied-palette:hover {
+  color: var(--p-encre);
+  text-decoration: underline;
+  text-decoration-color: var(--p-accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.28em;
+}
+
+/* ---------- Aperçu d'une image (attestation) dans la fenêtre superposée ---------- */
+.p-fenetre-image {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 1rem;
+  background: var(--p-surface);
+}
+.p-fenetre-image img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--p-filet);
+}
+
+/* ---------- Palette (Ctrl+K) : un champ, puis les résultats par groupe ---------- */
+.p-palette-champ {
+  flex: 1;
+  min-width: 0;
+  min-height: 2.75rem;
+  padding: 0 0.25rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--p-encre);
+  font: inherit;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.p-palette-champ::placeholder {
+  color: var(--p-encre-2);
+  opacity: 1;
+}
+/* Le champ garde le focus tant que la palette est ouverte : un trait d'accent, pas un cadre. */
+.piste .p-palette-champ:focus-visible {
+  outline: none;
+  box-shadow: inset 0 -3px 0 var(--p-accent);
+}
+.p-fenetre-corps.p-palette-corps {
+  padding: 0.25rem 0 0.5rem;
+}
+.p-palette-groupe {
+  padding: 0.6rem var(--p-marge-fenetre, 1rem) 0.2rem;
+}
+.p-palette-option {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  gap: 0 0.75rem;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.3rem var(--p-marge-fenetre, 1rem);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+/* Résultat actif : l'aplat surface et le trait d'accent de la ligne lue. */
+.p-palette-option[aria-selected='true'] {
+  background: var(--p-surface);
+  box-shadow: inset 4px 0 0 var(--p-accent);
+}
+.p-palette-repere {
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: var(--p-petit);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--p-accent);
+}
+.p-palette-label {
+  overflow: hidden;
+  font-weight: 600;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.p-palette-effet {
+  display: none;
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: var(--p-petit);
+  font-weight: 500;
+  color: var(--p-encre-2);
+  white-space: nowrap;
+}
+.p-palette-vide {
+  padding: 1rem var(--p-marge-fenetre, 1rem);
+}
+.p-palette-pied {
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: var(--p-petit);
+  font-weight: 500;
+  color: var(--p-encre-2);
+}
+
+@media (min-width: 44em) {
+  .p-competences {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .p-code {
+    grid-column: 1 / -1;
+  }
+  .p-reserve-competences {
+    order: 0;
+    align-self: stretch;
+    height: auto;
+    min-height: 6rem;
+    margin: 0;
+  }
+  .p-certification {
+    grid-template-columns: 9.5rem minmax(0, 1fr) auto auto;
+    gap: 0 1.5rem;
+  }
+  .p-certification > :not(.p-embleme) {
+    grid-column: auto;
+  }
+  .p-embleme {
+    grid-row: auto;
+    align-self: center;
+  }
+  .p-embleme-sigle {
+    font-size: 1.55rem;
+  }
+  /* La palette : un cadre étroit, posé en haut de l'écran, qui grandit avec ses résultats. */
+  .p-fenetre-palette[open] {
+    place-items: start center;
+  }
+  .p-fenetre-palette .p-fenetre-cadre {
+    width: min(100vw - 2rem, 42rem);
+    height: auto;
+    max-height: min(100dvh - 2rem, 34rem);
+    margin-top: max(1rem, 9vh);
+  }
+  .p-palette-option {
+    grid-template-columns: 2.25rem minmax(0, 1fr) auto;
+  }
+  .p-palette-effet {
+    display: block;
+  }
+}
+
+@media (min-width: 64em) {
+  /* Six certifications dans l'écran du jury : lignes resserrées, l'arbre à droite sur toute la hauteur. */
+  .p-certifications-corps {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(11rem, 16rem);
+    gap: 0 clamp(1.5rem, 3vw, 3rem);
+  }
+  .p-reserve-certifications {
+    order: 0;
+    align-self: stretch;
+    height: auto;
+    margin: 0;
+  }
+  .p-certification {
+    padding: 0.5rem 0;
+  }
+  /* Contact : l'accroche, la liaison debout, les moyens de contact. */
+  .p-contact-corps {
+    grid-template-columns: minmax(0, 1fr) minmax(7rem, 10rem) minmax(0, 1.3fr);
+    gap: 0 clamp(1.5rem, 3vw, 3rem);
+    align-items: start;
+  }
+  .p-reserve-contact {
+    align-self: stretch;
+    height: auto;
+    min-height: 15rem;
+  }
+}
+
+@media (min-width: 75em) {
+  /* Quatre colonnes : le code occupe les deux dernières, à côté du groupe réseau, sur deux rangées. */
+  .p-competences {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .p-code {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+}
+/* Ce que fait Entrée n'est écrit que sur le résultat actif : la liste reste calme. */
+.p-palette-option:not([aria-selected='true']) .p-palette-effet {
+  visibility: hidden;
+}
+/* Au toucher, pas de clavier : le rappel des touches n'a pas lieu d'être. */
+@media (hover: none) {
+  .p-palette-pied {
+    display: none;
+  }
+}
+@media (hover: none) {
+  .p-pied-palette kbd {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Étape 3f : pictos, pastilles, cartes illustrées, Veille, Contact
+   ========================================================================== */
+
+/* ---------- Pictos : un trait de 2 px, quatre tailles (18, 22, 28, 44 px), toujours décoratifs ---------- */
+.p-picto {
+  flex: none;
+  display: inline-block;
+}
+/* Dans un bouton, le picto a la couleur du libellé. Ailleurs, il est en accent. */
+.p-lien .p-picto,
+.p-fiche dt .p-picto,
+.p-roles .p-picto,
+.p-groupe-titre .p-picto,
+.p-label > .p-picto,
+.p-palette-loupe {
+  color: var(--p-accent);
+}
+/* Pastille : le picto sur un aplat teinté, à angles vifs. Deux tons, qui alternent dans une série. */
+.p-pastille {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: var(--p-cote);
+  height: var(--p-cote);
+  background: var(--p-teinte-1);
+  color: var(--p-accent);
+}
+.p-pastille[data-ton='2'] {
+  background: var(--p-teinte-2);
+  color: var(--p-accent-2);
+}
+.p-pastille[data-taille='s'] {
+  --p-cote: 1.75rem;
+}
+.p-pastille[data-taille='m'] {
+  --p-cote: 2.5rem;
+}
+.p-pastille[data-taille='l'] {
+  --p-cote: clamp(2.4rem, 8vw, 3rem);
+}
+
+/* ---------- En-tête de section : la pastille, le titre, puis le nom de l'organisme ---------- */
+.p-entete-titre {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+.piste .p-entete-nom {
+  margin-top: 0.45rem;
+  font-family: var(--p-titre);
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+.p-entete-nom + .p-chapo {
+  margin-top: 0.15rem !important;
+}
+.p-roles li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.p-fiche dt,
+.p-avant .p-label {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.p-groupe-titre {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.p-real-signe,
+.p-voisine-fleche {
+  display: inline-flex;
+  align-self: center;
+}
+.p-palette-loupe {
+  margin-left: 0.25rem;
+}
+
+/* ---------- Carte : un visuel teinté (grand picto, ou capture), puis le texte ---------- */
+.p-carte {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  height: 100%;
+  border: 1px solid var(--p-filet);
+  background: var(--p-carte-1);
+  color: var(--p-encre);
+  text-decoration: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: color-mix(in srgb, var(--p-accent) 25%, transparent);
+}
+.p-carte-visuel {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 5rem;
+  overflow: hidden;
+  background: var(--p-teinte-1);
+  color: var(--p-accent);
+  border-right: 1px solid var(--p-filet);
+}
+.p-carte[data-ton='2'] {
+  background: var(--p-carte-2);
+}
+.p-carte[data-ton='2'] .p-carte-visuel {
+  background: var(--p-teinte-2);
+  color: var(--p-accent-2);
+}
+/* Une capture remplit le visuel, à la place du picto. */
+.p-carte-visuel img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Le numéro de la réalisation, dans le coin du visuel, sur son propre aplat. */
+.p-carte-visuel .p-mission-numero {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 0.05rem 0.45rem;
+  background: var(--p-fond);
+  border-right: 1px solid var(--p-filet);
+  border-bottom: 1px solid var(--p-filet);
+  line-height: 1.45;
+}
+.p-carte[data-ton='2'] .p-mission-numero {
+  color: var(--p-accent-2);
+}
+.p-carte-texte {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+  padding: 0.5rem 0.75rem 0.6rem;
+}
+.p-carte-titre {
+  font-weight: 700;
+  line-height: 1.3;
+}
+.p-carte-periode {
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: var(--p-petit);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.45;
+  color: var(--p-encre-2);
+}
+/* Au survol d'une carte-lien, son picto grossit à peine. */
+.p-carte-visuel .p-picto {
+  transition: transform 0.18s ease;
+}
+a.p-carte:hover .p-carte-visuel .p-picto {
+  transform: scale(1.08);
+}
+
+/* ---------- Compétences : la pastille du groupe devant son intitulé ---------- */
+.p-competence-tete {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+/* ---------- Certifications : l'emblème prend la teinte de sa ligne ---------- */
+.p-embleme {
+  background: var(--p-embleme-1);
+}
+.p-certification[data-ton='2'] .p-embleme {
+  background: var(--p-embleme-2);
+}
+
+/* ---------- Veille : trois cartes illustrées, puis la ligne des thèmes suivis ---------- */
+.piste .p-veille-outils {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 0.45rem;
+}
+.p-carte.p-carte-outil {
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  height: auto;
+}
+.p-carte-outil .p-carte-texte {
+  gap: 0.3rem;
+  padding: 0.6rem 0.9rem 0.75rem;
+}
+.piste .p-carte-outil .p-carte-titre {
+  font-family: var(--p-titre);
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+.p-carte-outil p {
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+/* L'état « En pause », écrit en toutes lettres : le picto ne fait que le doubler. */
+.p-carte-etat {
+  align-items: flex-start;
+}
+.p-carte-etat .p-picto {
+  margin-top: 0.2rem;
+}
+.p-carte-outil .p-lien {
+  align-self: flex-start;
+}
+.p-veille-themes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 2rem;
+  margin-top: 1.5rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--p-filet);
+}
+.piste .p-veille-themes ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 2rem;
+}
+.p-veille-themes li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* ---------- Contact : l'accroche et ses deux actions ; les moyens, chacun avec sa pastille ---------- */
+.p-contact-appel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.p-contact-actions {
+  align-items: center;
+}
+.p-contact-moyens dl > div {
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 0.9rem;
+  align-items: center;
+}
+.p-contact-moyens .p-pastille {
+  grid-row: 1 / span 2;
+}
+.p-contact-moyens dt {
+  align-self: end;
+}
+.p-contact-moyens dd {
+  align-self: start;
+}
+.p-contact-adresse {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p-carte-visuel .p-picto {
+    transition: none;
+  }
+  a.p-carte:hover .p-carte-visuel .p-picto {
+    transform: none;
+  }
+}
+
+@media (min-width: 44em) {
+  /* Carte d'Entreprise : le visuel en bandeau au-dessus du texte. */
+  .p-cartes .p-carte {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+  }
+  .p-cartes .p-carte-visuel {
+    height: 4.75rem;
+    min-height: 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--p-filet);
+  }
+}
+
+@media (min-width: 64em) {
+  /* Veille : les trois cartes côte à côte, le visuel en bandeau. */
+  .piste .p-veille-outils {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .p-carte.p-carte-outil {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+  }
+  .p-carte-outil .p-carte-visuel {
+    height: 6.5rem;
+    min-height: 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--p-filet);
+  }
+}
+
+@media (min-width: 64em) {
+  /* Épreuves : la colonne des documents garde Télécharger, Aperçu et le lien sur une seule rangée. */
+  .p-epreuve {
+    grid-template-columns: 6.25rem minmax(0, 0.8fr) minmax(0, 1.4fr);
+  }
+  /* Veille : chaque carte a la largeur de son texte (Feedly court, le bot long). */
+  .piste .p-veille-outils {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr) minmax(0, 1.35fr);
+  }
+  .p-carte-outil .p-carte-visuel {
+    height: 5.5rem;
+  }
+}
+/* Bouton du menu : marge intérieure réduite, pour que « Fermer le menu » reste dans la marge en 375 px. */
+.p-menu-bouton {
+  padding: 0 0.8rem;
+}
+
+/* ==========================================================================
+   Étape 3g : captures d'écran dans les cartes
+   ========================================================================== */
+
+/* Une capture se lit depuis son coin haut gauche : c'est lui qui reste quand elle est recadrée. */
+.p-carte-visuel img {
+  object-position: left top;
+}
+/* Carte de veille avec sa capture : la capture en grand, au-dessus du texte, à toutes les largeurs. */
+.p-carte.p-carte-outil[data-capture] {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+}
+.p-carte-outil[data-capture] .p-carte-visuel {
+  aspect-ratio: 16 / 9;
+  min-height: 0;
+  border-right: 0;
+  border-bottom: 1px solid var(--p-filet);
+}
+/* Le logo de l'outil, en petit dans le coin bas droit de la capture (le haut gauche porte son titre), sur son propre aplat (comme le numéro d'une carte d'Entreprise). */
+.p-carte-logo {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  background: var(--p-fond);
+  border-left: 1px solid var(--p-filet);
+  border-top: 1px solid var(--p-filet);
+}
+@media (min-width: 64em) {
+  /* Côte à côte : dès qu'une carte a sa capture, les trois visuels prennent la même hauteur. */
+  .piste .p-veille-outils:has([data-capture]) .p-carte-visuel {
+    height: 7.5rem;
+    aspect-ratio: auto;
+  }
+}
+
+/* ---------- Repli sans JavaScript (`<noscript>` de index.html) : l'essentiel, en une colonne ---------- */
+.p-sans-script main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  max-width: 44rem;
+  padding: 2.5rem var(--p-marge) 3.5rem;
+}
+.p-sans-script-titre {
+  font-family: var(--p-titre);
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+.p-sans-script .p-label {
+  margin-top: 0.75rem;
+}

@@ -1,0 +1,66 @@
+/*
+ * Styles de la page 404 (`404.html`) : les polices, le socle et la DA Trame du site, puis la mise en
+ * page de la page elle-même. La page est statique : cette feuille est liée depuis le HTML.
+ */
+@import '@fontsource-variable/schibsted-grotesk/wght.css';
+@import '@fontsource-variable/martian-mono/standard.css';
+@import './styles.css';
+@import './directions/trame/trame.css';
+
+.p-introuvable {
+  display: flex;
+  flex-direction: column;
+}
+.p-introuvable-contenu {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+  width: 100%;
+  padding: 1.5rem var(--p-marge) 2.5rem;
+}
+.p-introuvable-contenu > .p-filet {
+  width: 100%;
+}
+/*
+ * « 404 » en trame de points : le texte sert de masque à une grille régulière de points, comme le
+ * portrait de l'accueil. Décoratif (`aria-hidden`) : le titre porte l'information.
+ */
+.p-introuvable-code {
+  font-family: var(--p-titre);
+  font-size: clamp(7rem, 30vw, 14.5rem);
+  font-weight: 800;
+  line-height: 0.84;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+  color: transparent;
+  background-image: radial-gradient(circle at center, var(--p-encre) 0 36%, transparent 40%);
+  background-size: max(5px, 0.036em) max(5px, 0.036em);
+  -webkit-background-clip: text;
+  background-clip: text;
+  user-select: none;
+}
+.p-introuvable-texte {
+  max-width: 34rem;
+}
+.p-introuvable-raccourcis {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 1.5rem;
+  width: 100%;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--p-filet);
+}
+.p-introuvable-raccourcis ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.5rem;
+}
+/* Contraste forcé (Windows) : le fond en dégradé disparaît, le code redevient un texte plein. */
+@media (forced-colors: active) {
+  .p-introuvable-code {
+    color: CanvasText;
+    background: none;
+  }
+}
