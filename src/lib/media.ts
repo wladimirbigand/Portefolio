@@ -15,6 +15,9 @@ export function useMedia(requete: string): boolean {
 /** Sous 768 px : les navigateurs mobiles affichent mal un PDF intégré à la page. */
 export const REQUETE_MOBILE = '(max-width: 47.99em)'
 
+/** À partir de 1272 px : la navigation tient en ligne dans la barre (même seuil dans `trame.css`). En dessous, le menu replié. */
+export const REQUETE_NAV = '(min-width: 1272px)'
+
 /** À partir de 1200 px : la marge de la page est assez large pour le chronomètre du mode oral. */
 export const REQUETE_ORAL = '(min-width: 1200px)'
 

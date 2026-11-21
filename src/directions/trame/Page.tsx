@@ -20,7 +20,7 @@ import { entrees, idsPage } from '../../lib/demo'
 import { useAncreInitiale } from '../../lib/ancreInitiale'
 import { useSectionActive } from '../../lib/sectionActive'
 import type { Theme } from '../../lib/theme'
-import { REQUETE_ORAL, REQUETE_TACTILE, useMedia } from '../../lib/media'
+import { REQUETE_NAV, REQUETE_ORAL, REQUETE_TACTILE, useMedia } from '../../lib/media'
 import { fichierPublic, modeOral } from '../../lib/url'
 import { Curseur } from '../commun/Curseur'
 import { BlocDocument, FournisseurApercu } from './Apercu'
@@ -269,7 +269,7 @@ export default function Page({ theme, basculer }: Props) {
       }
     }
     // La navigation passe en ligne sur grand écran : le menu n'a plus lieu d'être.
-    const large = window.matchMedia('(min-width: 75em)')
+    const large = window.matchMedia(REQUETE_NAV)
     const surLargeur = () => {
       if (large.matches) setMenuOuvert(false)
     }

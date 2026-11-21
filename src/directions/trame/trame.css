@@ -222,7 +222,7 @@ html[data-curseur='point'] * {
   display: inline-flex;
   align-items: center;
   min-height: 2.75rem;
-  /* Neuf entrées : elles tiennent en 1280 px, barre de défilement comprise. */
+  /* Neuf entrées : resserrées de 1272 à 1359 px (voir « Grand écran : navigation en ligne »). */
   padding: 0 0.4rem;
   font-size: var(--p-petit);
   font-weight: 500;
@@ -699,8 +699,11 @@ html[data-curseur='point'] * {
   }
 }
 
-/* ---------- Grand écran : navigation en ligne ---------- */
-@media (min-width: 75em) {
+/* ---------- Grand écran : navigation en ligne ----------
+   Le seuil (`REQUETE_NAV`, dans `src/lib/media.ts`) est la largeur où le logo, le compteur, les neuf
+   liens (le plus large en gras) et la bascule de thème tiennent entre les marges de la page, avec
+   une barre de défilement de 17 px et au moins 1 rem de jeu. En dessous : le menu replié. */
+@media (min-width: 1272px) {
   .p-nav {
     display: block;
     margin-left: auto;
@@ -711,6 +714,18 @@ html[data-curseur='point'] * {
   .p-menu-bouton,
   .p-menu {
     display: none !important;
+  }
+}
+/* De 1272 à 1359 px (dont 1280 × 720, le vidéoprojecteur) : la barre se resserre pour tenir en ligne. */
+@media (min-width: 1272px) and (max-width: 1359.98px) {
+  .p-barre {
+    gap: 0.7rem;
+  }
+  .p-nav a {
+    padding: 0 0.28rem;
+  }
+  .p-barre-fin .p-bouton {
+    padding: 0 0.8rem;
   }
 }
 
