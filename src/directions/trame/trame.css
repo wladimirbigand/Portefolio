@@ -189,16 +189,15 @@ html[data-curseur='point'] * {
 .p-compteur-numero {
   display: inline-block;
 }
-/* Mode oral : chronomètre de l'orateur, dans le coin bas gauche. Écrit à la verticale (il se lit de
-   bas en haut) et centré dans la marge de la page : large de 14 px, il tient dans la marge à toutes
-   les largeurs et ne touche donc aucun contenu, où que soit la page.
+/* Mode oral : chronomètre de l'orateur, en bas de la marge gauche, centré dans sa largeur.
+   Il n'existe qu'à partir de 1200 px (`REQUETE_ORAL`) : en dessous, la marge est plus étroite que lui.
    Outil personnel, volontairement atténué : hors des règles de taille et de contraste du jury. */
 .p-chrono {
   position: fixed;
-  left: calc((var(--p-marge) - 14px) / 2);
+  left: 0;
   bottom: 0.6rem;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
+  width: var(--p-marge);
+  text-align: center;
   z-index: 30;
   font-family: var(--p-mono);
   font-stretch: 75%;

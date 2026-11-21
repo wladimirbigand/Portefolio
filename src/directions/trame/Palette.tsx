@@ -162,8 +162,8 @@ interface Props {
   /** Vrai si le portrait de l'accueil est en mode photo. */
   photo: boolean
   basculerPortrait: () => void
-  /** Affiche ou masque le chronomètre du mode oral (comme la touche O). */
-  basculerOral: () => void
+  /** Affiche ou masque le chronomètre du mode oral (comme la touche O). Absent sous 1200 px : l'action n'est pas proposée. */
+  basculerOral?: () => void
 }
 
 /**
@@ -207,16 +207,20 @@ export function Palette({ ouverte, onOuverture, theme, basculerTheme, photo, bas
         mots: normaliser(palette.motsActions.portrait),
         effet: { t: 'portrait' },
       },
-      {
-        cle: 'action-oral',
-        genre: 'action',
-        repere: '',
-        label: palette.actions.oral,
-        mots: normaliser(palette.motsActions.oral),
-        effet: { t: 'oral' },
-      },
+      ...(basculerOral
+        ? [
+            {
+              cle: 'action-oral',
+              genre: 'action',
+              repere: '',
+              label: palette.actions.oral,
+              mots: normaliser(palette.motsActions.oral),
+              effet: { t: 'oral' },
+            } satisfies Entree,
+          ]
+        : []),
     ],
-    [theme, photo],
+    [theme, photo, basculerOral],
   )
   const groupes = useMemo(() => chercher(recherche, toutes), [recherche, toutes])
   const resultats = useMemo(() => groupes.flatMap((groupe) => groupe.entrees), [groupes])
@@ -269,7 +273,7 @@ export function Palette({ ouverte, onOuverture, theme, basculerTheme, photo, bas
     if (effet.t === 'theme' || effet.t === 'oral') {
       // Rien ne bouge dans la page : la palette se ferme et rend le focus.
       if (effet.t === 'theme') basculerTheme()
-      else basculerOral()
+      else basculerOral?.()
       fermer()
       return
     }

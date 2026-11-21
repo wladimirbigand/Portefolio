@@ -20,7 +20,7 @@ import { entrees, idsPage } from '../../lib/demo'
 import { useAncreInitiale } from '../../lib/ancreInitiale'
 import { useSectionActive } from '../../lib/sectionActive'
 import type { Theme } from '../../lib/theme'
-import { REQUETE_TACTILE, useMedia } from '../../lib/media'
+import { REQUETE_ORAL, REQUETE_TACTILE, useMedia } from '../../lib/media'
 import { fichierPublic, modeOral } from '../../lib/url'
 import { Curseur } from '../commun/Curseur'
 import { BlocDocument, FournisseurApercu } from './Apercu'
@@ -145,7 +145,7 @@ function Compteur({ index }: { index: number }) {
 }
 
 /**
- * Mode oral (touche O, ou `?oral`) : chronomètre mm:ss dans le coin bas gauche. Il démarre à 00:00
+ * Mode oral (touche O, ou `?oral`) : chronomètre mm:ss dans la marge gauche, en bas, à partir de 1200 px. Il démarre à 00:00
  * quand il s'affiche ; masqué, il est démonté, donc remis à zéro. Outil personnel de l'orateur,
  * volontairement discret. `role="timer"` n'est pas annoncé en continu par les lecteurs d'écran.
  */
@@ -180,6 +180,8 @@ export default function Page({ theme, basculer }: Props) {
   const [photo, setPhoto] = useState(lireChoixPortrait)
   const [palette, setPalette] = useState(false)
   // Mode oral : ni mémorisé ni écrit dans l'URL. Il vaut pour la page ouverte.
+  // Sous 1200 px, le chronomètre ne tient pas dans la marge : il n'existe pas, O ne fait rien et la palette ne le propose pas.
+  const oralPossible = useMedia(REQUETE_ORAL)
   const [oral, setOral] = useState(oralAuChargement)
   const basculerOral = useCallback(() => setOral((actuel) => !actuel), [])
   // Appareil tactile : pas de curseur. La trame est « posée » (une toile par réserve, pilotée par le défilement).
@@ -230,7 +232,7 @@ export default function Page({ theme, basculer }: Props) {
         return
       }
       if (touche === 'o') {
-        basculerOral()
+        if (window.matchMedia(REQUETE_ORAL).matches) basculerOral()
         return
       }
       // Fenêtre superposée ouverte : la page derrière est inerte, son secret aussi.
@@ -360,7 +362,7 @@ export default function Page({ theme, basculer }: Props) {
         </div>
       </header>
 
-      {oral && <Chronometre />}
+      {oral && oralPossible && <Chronometre />}
 
       <main id="contenu" className="p-contenu">
         <section id={demo.accueil.id} className="p-accueil" aria-labelledby="p-nom">
@@ -503,7 +505,7 @@ export default function Page({ theme, basculer }: Props) {
         basculerTheme={basculer}
         photo={photo}
         basculerPortrait={basculerPortrait}
-        basculerOral={basculerOral}
+        basculerOral={oralPossible ? basculerOral : undefined}
       />
       </FournisseurFiches>
       </FournisseurApercu>
