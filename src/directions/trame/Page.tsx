@@ -44,8 +44,8 @@ interface Props {
   basculer: () => void
 }
 
-// Le mode oral (?oral) est lu une fois, au chargement.
-const oral = modeOral()
+// `?oral` est lu une fois, au chargement : le chronomètre est alors affiché d'emblée. Sinon, la touche O.
+const oralAuChargement = modeOral()
 /** Raccourci de la palette, tel qu'il s'écrit sur cette machine : « ⌘ K » sur Mac, « Ctrl K » ailleurs. */
 const raccourciPalette = /mac|iphone|ipad/i.test(navigator.platform) ? ui.palette.raccourci.mac : ui.palette.raccourci.autre
 
@@ -145,8 +145,9 @@ function Compteur({ index }: { index: number }) {
 }
 
 /**
- * Mode oral (`?oral`) : chronomètre mm:ss dans le coin bas gauche, démarré au chargement de la
- * page, remis à zéro au rafraîchissement. Outil personnel de l'orateur, volontairement discret. `role="timer"` n'est pas annoncé en continu par les lecteurs d'écran.
+ * Mode oral (touche O, ou `?oral`) : chronomètre mm:ss dans le coin bas gauche. Il démarre à 00:00
+ * quand il s'affiche ; masqué, il est démonté, donc remis à zéro. Outil personnel de l'orateur,
+ * volontairement discret. `role="timer"` n'est pas annoncé en continu par les lecteurs d'écran.
  */
 function Chronometre() {
   const [secondes, setSecondes] = useState(0)
@@ -178,6 +179,9 @@ export default function Page({ theme, basculer }: Props) {
   const [menuOuvert, setMenuOuvert] = useState(false)
   const [photo, setPhoto] = useState(lireChoixPortrait)
   const [palette, setPalette] = useState(false)
+  // Mode oral : ni mémorisé ni écrit dans l'URL. Il vaut pour la page ouverte.
+  const [oral, setOral] = useState(oralAuChargement)
+  const basculerOral = useCallback(() => setOral((actuel) => !actuel), [])
   // Appareil tactile : pas de curseur. La trame est « posée » (une toile par réserve, pilotée par le défilement).
   const tactile = useMedia(REQUETE_TACTILE)
   const opacitePhoto = useMotionValue(photo ? 1 : 0)
@@ -214,22 +218,28 @@ export default function Page({ theme, basculer }: Props) {
     [basculerPortrait],
   )
 
-  // Équivalent au clavier : la touche P, hors champ de saisie et sans Ctrl, Alt ni Meta.
+  // Deux touches seules, hors champ de saisie et sans Ctrl, Alt ni Meta :
+  // P bascule le portrait (équivalent du clic), O affiche ou masque le chronomètre de l'oral.
   useEffect(() => {
     const surTouche = (evenement: KeyboardEvent) => {
-      if (evenement.key.toLowerCase() !== 'p' || evenement.repeat) return
+      const touche = evenement.key.toLowerCase()
+      if ((touche !== 'p' && touche !== 'o') || evenement.repeat) return
       if (evenement.ctrlKey || evenement.metaKey || evenement.altKey) return
-      // Fenêtre superposée ouverte : la page derrière est inerte, son secret aussi.
-      if (document.querySelector('dialog[open]')) return
       const cible = evenement.target
       if (cible instanceof HTMLElement && (cible.isContentEditable || /^(input|textarea|select)$/i.test(cible.tagName))) {
         return
       }
+      if (touche === 'o') {
+        basculerOral()
+        return
+      }
+      // Fenêtre superposée ouverte : la page derrière est inerte, son secret aussi.
+      if (document.querySelector('dialog[open]')) return
       basculerPortrait()
     }
     window.addEventListener('keydown', surTouche)
     return () => window.removeEventListener('keydown', surTouche)
-  }, [basculerPortrait])
+  }, [basculerPortrait, basculerOral])
 
   // Menu ouvert : Échap le referme, et la tabulation tourne entre le bouton et les entrées du menu.
   useEffect(() => {
@@ -493,6 +503,7 @@ export default function Page({ theme, basculer }: Props) {
         basculerTheme={basculer}
         photo={photo}
         basculerPortrait={basculerPortrait}
+        basculerOral={basculerOral}
       />
       </FournisseurFiches>
       </FournisseurApercu>

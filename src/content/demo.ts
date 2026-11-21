@@ -23,7 +23,7 @@ export const demo = {
   basculeTheme: { light: 'Mode sombre', dark: 'Mode clair' },
   /** Compteur de position dans la barre : « 03 / 09 ». */
   total: (numero: string, total: number) => `${numero} / ${String(total).padStart(2, '0')}`,
-  /** Mode oral (?oral) : chronomètre discret dans un coin de l’écran. */
+  /** Mode oral (touche O, ou ?oral) : chronomètre discret dans un coin de l’écran. */
   oral: {
     chronometre: 'Chronomètre de l’oral',
   },

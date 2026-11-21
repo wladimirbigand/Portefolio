@@ -18,7 +18,7 @@ export function urlAvec(parametres: Record<string, string | null>): string {
   return window.location.pathname + (chaine ? `?${chaine}` : '')
 }
 
-/** `?oral` : mode oral, avec un chronomètre discret dans un coin de l'écran. */
+/** `?oral` : le chronomètre du mode oral est affiché dès le chargement (sinon, la touche O). */
 export function modeOral(): boolean {
   const recherche = new URLSearchParams(window.location.search)
   return recherche.has('oral') && recherche.get('oral') !== '0'

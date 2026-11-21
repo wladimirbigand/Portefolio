@@ -20,6 +20,7 @@ type Effet =
   | { t: 'document'; url: string; titre: string }
   | { t: 'theme' }
   | { t: 'portrait' }
+  | { t: 'oral' }
 
 interface Entree {
   cle: string
@@ -161,6 +162,8 @@ interface Props {
   /** Vrai si le portrait de l'accueil est en mode photo. */
   photo: boolean
   basculerPortrait: () => void
+  /** Affiche ou masque le chronomètre du mode oral (comme la touche O). */
+  basculerOral: () => void
 }
 
 /**
@@ -168,10 +171,10 @@ interface Props {
  * superposée. Motif « combobox » : le focus reste dans le champ, les flèches parcourent les résultats
  * (`aria-activedescendant`), Entrée ouvre, Échap ferme.
  * - Une section : la page y saute. Une réalisation : sa fiche s'ouvre. Un document : son aperçu
- *   s'ouvre (sous 768 px, dans un nouvel onglet). Une action : le thème, ou le portrait.
+ *   s'ouvre (sous 768 px, dans un nouvel onglet). Une action : le thème, le portrait, ou le mode oral.
  * - Elle s'ouvre aussi par-dessus une fiche ou un aperçu : le résultat choisi les remplace.
  */
-export function Palette({ ouverte, onOuverture, theme, basculerTheme, photo, basculerPortrait }: Props) {
+export function Palette({ ouverte, onOuverture, theme, basculerTheme, photo, basculerPortrait, basculerOral }: Props) {
   const [recherche, setRecherche] = useState('')
   const [active, setActive] = useState(0)
   const idTitre = useId()
@@ -203,6 +206,14 @@ export function Palette({ ouverte, onOuverture, theme, basculerTheme, photo, bas
         label: photo ? palette.actions.points : palette.actions.photo,
         mots: normaliser(palette.motsActions.portrait),
         effet: { t: 'portrait' },
+      },
+      {
+        cle: 'action-oral',
+        genre: 'action',
+        repere: '',
+        label: palette.actions.oral,
+        mots: normaliser(palette.motsActions.oral),
+        effet: { t: 'oral' },
       },
     ],
     [theme, photo],
@@ -255,8 +266,10 @@ export function Palette({ ouverte, onOuverture, theme, basculerTheme, photo, bas
   const choisir = (entree: Entree | undefined) => {
     if (!entree) return
     const { effet } = entree
-    if (effet.t === 'theme') {
-      basculerTheme()
+    if (effet.t === 'theme' || effet.t === 'oral') {
+      // Rien ne bouge dans la page : la palette se ferme et rend le focus.
+      if (effet.t === 'theme') basculerTheme()
+      else basculerOral()
       fermer()
       return
     }

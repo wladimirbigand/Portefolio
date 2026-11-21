@@ -33,11 +33,13 @@ export const ui = {
       themeClair: 'Passer au thème clair',
       photo: 'Portrait : afficher la photo',
       points: 'Portrait : afficher les points',
+      oral: 'Mode oral (afficher ou masquer le chrono)',
     },
     /** Mots qui retrouvent une action, en plus de son libellé. */
     motsActions: {
       theme: 'theme clair sombre dark light mode couleur',
       portrait: 'portrait photo points trame visage basculer',
+      oral: 'oral chrono chronometre minuteur temps duree touche o',
     },
     /** Rappel des touches, au pied de la palette. */
     touches: 'Flèches pour choisir · Entrée pour ouvrir · Échap pour fermer',
