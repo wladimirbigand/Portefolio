@@ -176,8 +176,11 @@ function ContenuFiche({ realisation, idTitre }: { realisation: Realisation; idTi
                       <BlocDocument
                         label={document.label}
                         url={fichierPublic(document.url)}
-                        titreApercu={realisationsLibelles.titreDocument(document.label, numero)}
-                        nom={(action) => realisationsLibelles.pourDocument(action, document.label, numero)}
+                        // Titre court, s'il y en a un : la barre de la visionneuse et le nom des boutons.
+                        titreApercu={document.titreCourt ?? realisationsLibelles.titreDocument(document.label, numero)}
+                        nom={(action) =>
+                          realisationsLibelles.pourDocument(action, document.titreCourt ?? document.label, numero)
+                        }
                       />
                     </li>
                   ))}

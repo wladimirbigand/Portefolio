@@ -116,12 +116,12 @@ const FIXES: Entree[] = [
           repere: deuxChiffres(realisation.numero),
           label: document.label,
           mots: normaliser(
-            `${palette.realisation(realisation.numero)} ${realisation.titreCourt} ${document.label} pdf`,
+            `${palette.realisation(realisation.numero)} ${realisation.titreCourt} ${document.label} ${document.titreCourt ?? ''} pdf`,
           ),
           effet: {
             t: 'document',
             url: fichierPublic(document.url),
-            titre: realisationsLibelles.titreDocument(document.label, realisation.numero),
+            titre: document.titreCourt ?? realisationsLibelles.titreDocument(document.label, realisation.numero),
           },
         }),
       ),

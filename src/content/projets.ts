@@ -37,8 +37,10 @@ export const realisationsLibelles = {
   ficheE6: 'Fiche descriptive E6',
   /** Document joint à la réalisation 6 (tableau d’audit, version publique). */
   analyseLinux: 'Analyse de compatibilité Linux (version publique)',
-  /** Nom accessible d’une vignette de la galerie : « Agrandir la capture : <légende> ». */
-  agrandir: (legende: string) => `Agrandir la capture : ${legende}`,
+  /** Son titre court : la barre de la visionneuse et le nom de ses boutons. */
+  analyseLinuxCourt: 'Audit de compatibilité Linux',
+  /** Nom accessible d’une vignette de la galerie : « Agrandir la capture 2 ». La légende est lue ensuite, une seule fois. */
+  agrandir: (rang: number) => `Agrandir la capture ${rang}`,
   /** Fenêtre d’une capture en grand : « Capture 2 / 4 », et son annonce. */
   rangCapture: (rang: number, total: number) => `Capture ${rang} / ${total}`, // espaces insécables
   rangCaptureAnnonce: (rang: number, total: number) => `Capture ${rang} sur ${total}`,
@@ -271,7 +273,13 @@ export const realisations: Realisation[] = [
       resultat:
         'La plupart des logiciels sont compatibles ou ont une alternative. Le principal point de vigilance concerne les logiciels de comptabilité et de gestion publique, souvent des clients lourds Windows : certains existent désormais en version web, d’autres restent à vérifier, notamment celui des marchés publics.',
       preuves: {
-        documents: [{ label: realisationsLibelles.analyseLinux, url: 'docs/realisation-6-audit.pdf' }],
+        documents: [
+          {
+            label: realisationsLibelles.analyseLinux,
+            titreCourt: realisationsLibelles.analyseLinuxCourt,
+            url: 'docs/realisation-6-audit.pdf',
+          },
+        ],
       },
     },
   },

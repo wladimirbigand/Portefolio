@@ -145,7 +145,13 @@ export interface Capture {
 export type CleCaptureVeille = 'agregateur' | 'bot'
 
 /** Document joint à une réalisation. `url` est un chemin relatif à `public/`. */
-export type DocumentRealisation = Lien
+export interface DocumentRealisation extends Lien {
+  /**
+   * Titre court : celui de la barre de la visionneuse et du nom des boutons (Télécharger, Aperçu…).
+   * Absent : le libellé complet, suivi de la réalisation (« Fiche descriptive E6 · Réalisation 3 »).
+   */
+  titreCourt?: string
+}
 
 /**
  * Lien public d’une réalisation. Il ne s’affiche que si `valide` vaut `true` :

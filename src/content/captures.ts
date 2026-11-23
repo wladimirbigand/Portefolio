@@ -17,7 +17,7 @@ import type { Capture, CleCaptureVeille } from './types'
  * Légende de chaque capture, par nom de fichier (sans l’extension). Fournies par Wladimir (étape 5) :
  * chacune sert à la fois de légende visible et de texte alternatif.
  * Une capture sans entrée ici n’a pas de légende, et son texte alternatif est tiré du nom du fichier
- * (`altProvisoire`) : c’est le cas de `realisation-6-1`. // À VÉRIFIER : légende à fournir.
+ * (`altProvisoire`).
  */
 export const legendes: Record<string, string> = {
   'realisation-2-1': 'Schéma du TP, deux VLAN routés par un routeur MikroTik',
@@ -29,6 +29,7 @@ export const legendes: Record<string, string> = {
   'realisation-4-2': 'Carte des lieux culturels du département, filtrable par commune et par type (théâtres)',
   'realisation-4-3': 'La même carte filtrée sur les cinémas',
   'realisation-4-4': 'La même carte filtrée sur les bibliothèques et boîtes à lire',
+  'realisation-6-1': 'Récapitulatif de l’audit : 28 logiciels classés selon leur compatibilité avec Ubuntu 26.04 LTS',
   'realisation-7-1': 'Maquette physique, deux postes Ubuntu dont le client qui sert de passerelle vers le sous-réseau isolé',
   'realisation-7-2': 'Poste client avec deux cartes réseau, l’une vers l’entreprise (masquée), l’autre vers la maquette (192.168.100.1)',
   'realisation-7-3': 'Serveur Samba AD sur le sous-réseau isolé de la maquette (192.168.100.2)',

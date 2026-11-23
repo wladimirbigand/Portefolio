@@ -228,7 +228,8 @@ export function FournisseurGalerie({ children }: { children: ReactNode }) {
 
 /**
  * Galerie d'une fiche : les captures en vignettes légendées. Chaque vignette est un bouton qui ouvre
- * la capture en grand. La légende sert aussi de texte alternatif.
+ * la capture en grand, nommé par son numéro (« Agrandir la capture 2 »). La légende n'est lue qu'une
+ * fois, sous la vignette ; elle est le texte alternatif de l'image une fois ouverte en grand.
  */
 export function Galerie({ captures, numero }: { captures: Capture[]; numero: number }) {
   const ouvrir = useContext(ContexteGalerie)
@@ -241,10 +242,15 @@ export function Galerie({ captures, numero }: { captures: Capture[]; numero: num
               type="button"
               className="p-galerie-bouton"
               aria-haspopup="dialog"
-              aria-label={realisationsLibelles.agrandir(capture.alt)}
+              aria-label={realisationsLibelles.agrandir(rang + 1)}
               onClick={() => ouvrir(captures, rang, numero)}
             >
-              <ImageCapture capture={capture} largeurs="(min-width: 64em) 22rem, (min-width: 44em) 45vw, 92vw" />
+              {/* Sans légende, la vignette garde son texte alternatif ; avec, la légende dessous la décrit déjà. */}
+              <ImageCapture
+                capture={capture}
+                alt={capture.legende ? '' : undefined}
+                largeurs="(min-width: 64em) 22rem, (min-width: 44em) 45vw, 92vw"
+              />
               <span className="p-galerie-loupe" aria-hidden="true">
                 <Picto nom="zoomer" />
               </span>
