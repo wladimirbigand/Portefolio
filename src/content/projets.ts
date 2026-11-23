@@ -35,6 +35,17 @@ export const realisationsLibelles = {
   },
   /** Libellé du lien vers la fiche descriptive E6 d’une réalisation. */
   ficheE6: 'Fiche descriptive E6',
+  /** Document joint à la réalisation 6 (tableau d’audit, version publique). */
+  analyseLinux: 'Analyse de compatibilité Linux (version publique)',
+  /** Nom accessible d’une vignette de la galerie : « Agrandir la capture : <légende> ». */
+  agrandir: (legende: string) => `Agrandir la capture : ${legende}`,
+  /** Fenêtre d’une capture en grand : « Capture 2 / 4 », et son annonce. */
+  rangCapture: (rang: number, total: number) => `Capture ${rang} / ${total}`, // espaces insécables
+  rangCaptureAnnonce: (rang: number, total: number) => `Capture ${rang} sur ${total}`,
+  captureDe: (numero: number) => `Réalisation ${numero}`,
+  navigationCaptures: 'Naviguer entre les captures',
+  capturePrecedente: 'Précédente',
+  captureSuivante: 'Suivante',
   anterieursTitre: 'Avant le BTS',
   /** Nom complet de chaque contexte, pour le détail d’une réalisation. */
   contextes: {
@@ -259,6 +270,9 @@ export const realisations: Realisation[] = [
       outils: ['Hyper-V', 'Ubuntu 26.04 LTS', 'Samba AD'],
       resultat:
         'La plupart des logiciels sont compatibles ou ont une alternative. Le principal point de vigilance concerne les logiciels de comptabilité et de gestion publique, souvent des clients lourds Windows : certains existent désormais en version web, d’autres restent à vérifier, notamment celui des marchés publics.',
+      preuves: {
+        documents: [{ label: realisationsLibelles.analyseLinux, url: 'docs/realisation-6-audit.pdf' }],
+      },
     },
   },
   {

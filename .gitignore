@@ -20,13 +20,20 @@ dist/
 /CONTENU-VALIDE.md
 /CONTENU-A-METTRE-A-JOUR.md
 /FICHES-CONTENU.md
+/legendes.txt
 
 # Captures de contrôle (Playwright). Les images du site, elles, sont dans src/assets/captures/.
 /captures/
 
 # Scripts ponctuels (portrait allégé, image de partage) : le build ne les lance pas,
 # leurs résultats (src/assets/photo-detouree.webp, public/apercu.png) sont dans le dépôt.
-/scripts/
+# Seule exception : la conversion des PDF en images, lancée avant chaque build (donc par le workflow).
+/scripts/*
+!/scripts/pdf-en-images.mjs
+
+# Aperçu des PDF : images, texte et manifeste, refaits à chaque build par scripts/pdf-en-images.mjs.
+/public/docs-apercu/
+/src/generes/
 
 # Ancien site : référence de contenu seulement (attestations, ancienne photo, ancien PDF).
 /legacy/

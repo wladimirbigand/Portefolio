@@ -2380,3 +2380,281 @@ a.p-carte:hover .p-carte-visuel .p-picto {
 .p-sans-script .p-label {
   margin-top: 0.75rem;
 }
+
+/* ==========================================================================
+   Étape 5 : galerie de captures, capture en grand, visionneuse PDF
+   ========================================================================== */
+
+/* ---------- Vignette de galerie : un bouton qui ouvre la capture en grand ---------- */
+.p-galerie-bouton {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--p-surface);
+  color: var(--p-accent);
+  cursor: zoom-in;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: color-mix(in srgb, var(--p-accent) 25%, transparent);
+}
+/* La loupe, dans le coin bas droit, sur son propre aplat (comme le numéro d'une carte) : elle dit que la capture s'agrandit. */
+.p-galerie-loupe {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  background: var(--p-fond);
+  border: 1px solid var(--p-filet);
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease;
+}
+.p-galerie-bouton:hover .p-galerie-loupe {
+  background: var(--p-encre);
+  color: var(--p-fond);
+}
+
+/* ---------- Zoom : la zone porte `--p-zoom` (src/lib/zoom.ts), son contenu grandit avec lui ---------- */
+.p-capture-zone,
+.p-visionneuse {
+  --p-zoom: 1;
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  /* Arrivé en bout de zone, le défilement ne passe pas à la page derrière. */
+  overscroll-behavior: contain;
+  background: var(--p-surface);
+  cursor: zoom-in;
+}
+.p-capture-zone[data-agrandi],
+.p-visionneuse[data-agrandi] {
+  cursor: zoom-out;
+}
+/* La zone touche les bords de la fenêtre : son contour de focus se trace à l'intérieur, pour rester visible. */
+.piste .p-capture-zone:focus-visible,
+.piste .p-visionneuse:focus-visible {
+  outline-offset: -3px;
+}
+
+/* ---------- Capture en grand ---------- */
+/* Image entière : rien à faire défiler, le glissement change de capture et le pincement zoome (pas le navigateur). */
+.p-capture-zone {
+  touch-action: none;
+}
+.p-capture-zone[data-agrandi] {
+  touch-action: pan-x pan-y;
+}
+.p-capture-image {
+  box-sizing: border-box;
+  width: calc(var(--p-zoom) * 100%);
+  height: calc(var(--p-zoom) * 100%);
+  margin: 0;
+  padding: 0.75rem;
+}
+.p-capture-image picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.p-capture-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+/* La légende : sa hauteur est réservée (trois lignes sur mobile, deux ailleurs), la zone de l'image ne bouge pas. */
+.p-capture-legende {
+  flex: none;
+  min-height: calc(3 * 1.45em + 1.1rem);
+  padding: 0.55rem var(--p-marge-fenetre, 1rem);
+  border-top: 1px solid var(--p-filet);
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+.p-fenetre-capture .p-fenetre-pied {
+  border-top: 0;
+  padding-top: 0;
+}
+/* Mobile : le titre sur sa ligne, puis « Zoomer » et « Fermer » à parts égales. */
+.p-fenetre-capture .p-fenetre-barre {
+  flex-wrap: wrap;
+}
+.p-fenetre-capture .p-fenetre-titre {
+  flex: 1 0 100%;
+}
+.p-fenetre-capture .p-fenetre-actions {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+/* ---------- Visionneuse PDF : les pages en images, l'une sous l'autre ---------- */
+/* Barre : le titre et le compteur, les outils, « Fermer ». Sur une ligne quand elle tient, sinon les outils dessous. */
+.p-visionneuse-barre {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'titres fermer'
+    'outils outils';
+  align-items: center;
+}
+.p-visionneuse-titres {
+  grid-area: titres;
+  min-width: 0;
+}
+.p-visionneuse-compteur {
+  font-family: var(--p-mono);
+  font-stretch: 75%;
+  font-size: var(--p-petit);
+  font-weight: 500;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+  color: var(--p-encre-2);
+}
+.p-visionneuse-fermer {
+  grid-area: fermer;
+}
+/* Mobile : quatre outils en deux colonnes égales ; un libellé long passe sur deux lignes. */
+.p-visionneuse-outils {
+  grid-area: outils;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+.p-visionneuse-outils .p-bouton,
+.p-visionneuse-outils .p-lien {
+  min-width: 0;
+  padding: 0 0.5rem;
+  justify-content: center;
+  text-align: center;
+  white-space: normal;
+}
+.p-visionneuse-outils [aria-disabled='true'] {
+  cursor: default;
+  border-style: dashed;
+}
+.p-visionneuse-outils [aria-disabled='true']:hover {
+  background: transparent;
+  color: var(--p-encre);
+}
+.p-visionneuse-outils [aria-pressed='true'] {
+  background: var(--p-encre);
+  color: var(--p-fond);
+}
+.p-visionneuse {
+  /* Un doigt fait défiler ; deux doigts zooment la page du document, pas la page du site. */
+  touch-action: pan-x pan-y;
+}
+.p-visionneuse[data-texte] {
+  background: var(--p-fond);
+  cursor: auto;
+}
+.p-visionneuse .p-visionneuse-pages {
+  box-sizing: border-box;
+  display: grid;
+  gap: 0.75rem;
+  /* Ajustée à la largeur de la zone (1200 px au plus), puis multipliée par le zoom. */
+  width: calc(var(--p-zoom) * min(100%, 1200px));
+  margin: 0 auto;
+  padding: 0.75rem;
+}
+/* La place de chaque page est réservée (rapport largeur / hauteur posé en ligne) : un aplat blanc l'attend. */
+.p-visionneuse-pages li {
+  overflow: hidden;
+  border: 1px solid var(--p-filet);
+  background: #ffffff;
+}
+.p-visionneuse-pages img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.p-visionneuse-texte {
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 0.75rem var(--p-marge-fenetre, 1rem) 2rem;
+}
+.p-visionneuse-texte section {
+  padding: 0.65rem 0 1.1rem;
+  border-top: 1px solid var(--p-filet);
+}
+.p-visionneuse-texte section:first-child {
+  border-top: 0;
+}
+.p-visionneuse-texte .p-label {
+  margin-bottom: 0.35rem;
+}
+/* Le texte extrait garde les lignes du PDF. */
+.p-visionneuse-texte p {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+.p-visionneuse-vide {
+  color: var(--p-encre-2);
+}
+
+@media (min-width: 44em) {
+  .p-capture-legende {
+    min-height: calc(2 * 1.45em + 1.1rem);
+  }
+  .p-fenetre-capture .p-fenetre-barre {
+    flex-wrap: nowrap;
+  }
+  .p-fenetre-capture .p-fenetre-titre {
+    flex: 0 1 auto;
+  }
+  .p-fenetre-capture .p-fenetre-actions {
+    flex: none;
+    display: flex;
+    gap: 0.65rem;
+  }
+  /* Le bouton de zoom garde sa largeur quand son libellé change. */
+  .p-fenetre-capture .p-fenetre-actions .p-bouton:first-child {
+    min-width: 9.25rem;
+  }
+  .p-visionneuse-outils {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem;
+  }
+  .p-visionneuse-outils .p-bouton {
+    padding: 0 0.8rem;
+    white-space: nowrap;
+  }
+  .p-visionneuse-outils .p-lien {
+    padding: 0;
+    white-space: nowrap;
+  }
+  /* Le bouton de zoom garde sa largeur quand son libellé change (« Zoomer », « Dézoomer »). */
+  .p-visionneuse-outils .p-bouton:first-child {
+    min-width: 8.75rem;
+  }
+}
+/* À partir de 1248 px (dont 1280 × 720, le vidéoprojecteur) : toute la barre sur une ligne. */
+@media (min-width: 78em) {
+  .p-visionneuse-barre {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-areas: 'titres outils fermer';
+  }
+  .p-visionneuse-fermer {
+    padding: 0 0.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p-galerie-loupe {
+    transition: none;
+  }
+}

@@ -5,6 +5,26 @@ export const ui = {
   fenetre: {
     fermer: 'Fermer',
   },
+  /** Zoom d’une capture ou d’un document (bouton, double-clic, pincement). */
+  zoom: {
+    zoomer: 'Zoomer',
+    dezoomer: 'Dézoomer',
+  },
+  /** Visionneuse d’un document PDF : ses pages en images, et sa version texte. */
+  visionneuse: {
+    pages: 'Pages du document',
+    outils: 'Outils du document',
+    /** Compteur qui suit le défilement : « Page 2 / 8 ». */
+    compteur: (page: number, total: number) => `Page ${page} / ${total}`, // espaces insécables
+    /** Texte alternatif d’une page : « Épreuve E6 · Fiche 1, page 2 sur 8 ». */
+    altPage: (titre: string, page: number, total: number) => `${titre}, page ${page} sur ${total}`,
+    titrePage: (page: number) => `Page ${page}`,
+    /** Bouton qui remplace les images par le texte extrait du PDF (accessibilité). */
+    texte: 'Version texte',
+    texteChargement: 'Chargement du texte…',
+    texteErreur: 'Le texte n’a pas pu être chargé. Téléchargez le document pour le lire.',
+    texteVide: 'Cette page ne contient pas de texte : c’est une image ou un schéma.',
+  },
   /** Palette de navigation rapide (Ctrl+K, ou Cmd+K sur Mac). */
   palette: {
     titre: 'Recherche rapide',

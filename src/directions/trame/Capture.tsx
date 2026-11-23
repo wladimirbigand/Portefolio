@@ -5,8 +5,19 @@ import type { Capture } from '../../content'
  * connues d'avance (aucun saut de mise en page), chargement différé.
  * `largeurs` est l'attribut `sizes` : la largeur d'affichage de l'image, selon l'écran.
  * `alt` vide : l'image est décorative ici (elle est décrite ailleurs, dans la fiche).
+ * `immediat` : l'image est chargée tout de suite (capture ouverte en grand, déjà à l'écran).
  */
-export function ImageCapture({ capture, largeurs, alt }: { capture: Capture; largeurs: string; alt?: string }) {
+export function ImageCapture({
+  capture,
+  largeurs,
+  alt,
+  immediat,
+}: {
+  capture: Capture
+  largeurs: string
+  alt?: string
+  immediat?: boolean
+}) {
   return (
     <picture>
       {capture.sources.map((source) => (
@@ -17,8 +28,9 @@ export function ImageCapture({ capture, largeurs, alt }: { capture: Capture; lar
         alt={alt ?? capture.alt}
         width={capture.largeur}
         height={capture.hauteur}
-        loading="lazy"
+        loading={immediat ? 'eager' : 'lazy'}
         decoding="async"
+        draggable={immediat ? false : undefined}
       />
     </picture>
   )

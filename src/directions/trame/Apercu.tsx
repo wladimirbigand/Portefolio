@@ -2,12 +2,12 @@ import { createContext, useCallback, useContext, useEffect, useId, useMemo, useS
 import type { ReactNode } from 'react'
 import { motion } from 'motion/react'
 import { demo, epreuvesActions, ui } from '../../content'
-import { REQUETE_MOBILE, useMedia } from '../../lib/media'
 import { urlApercuPdf } from '../../lib/url'
 import { Bouton, RESSORT_VIF } from './atomes'
 import { Fenetre } from './Fenetre'
 import { Picto } from './Picto'
 import { insecable } from './realisations'
+import { pagesDepuisUrl, prechargerDocument, Visionneuse } from './Visionneuse'
 
 /** Document à montrer dans la fenêtre d'aperçu. */
 interface DocumentApercu {
@@ -33,13 +33,16 @@ export function useApercu(): Apercu {
 
 /**
  * Aperçu d'un document, commun à toute la page : une seule fenêtre superposée, que n'importe quel bloc de document
- * peut ouvrir. Le PDF occupe presque tout l'écran, la page ajustée à la largeur.
+ * peut ouvrir, à toutes les largeurs (plein écran sur mobile). Un PDF de `public/docs/` s'ouvre dans la
+ * visionneuse (`Visionneuse.tsx` : ses pages converties en images au build) ; une attestation en image
+ * s'affiche telle quelle ; un PDF non converti garde le lecteur du navigateur.
  */
 export function FournisseurApercu({ children }: { children: ReactNode }) {
   const [apercu, setDocument] = useState<DocumentApercu | null>(null)
   const idTitre = useId()
   const fermer = useCallback(() => setDocument(null), [])
   const valeur = useMemo(() => ({ ouvrir: setDocument, fermer }), [fermer])
+  const pages = apercu && !apercu.image ? pagesDepuisUrl(apercu.url) : undefined
 
   // Bouton Retour du navigateur : il referme la fiche de réalisation dessous, donc l'aperçu aussi.
   useEffect(() => {
@@ -51,7 +54,11 @@ export function FournisseurApercu({ children }: { children: ReactNode }) {
     <ContexteApercu value={valeur}>
       {children}
       <Fenetre ouverte={apercu !== null} onFermer={fermer} idTitre={idTitre} className="p-fenetre-pdf">
-        {apercu && (
+        {apercu && pages && (
+          // La clé remet la visionneuse à neuf (page 1, zoom 1) quand la palette change de document.
+          <Visionneuse key={apercu.url} url={apercu.url} titre={apercu.titre} idTitre={idTitre} pages={pages} onFermer={fermer} />
+        )}
+        {apercu && !pages && (
           <>
             <header className="p-fenetre-barre">
               <h2 id={idTitre} className="p-fenetre-titre">
@@ -119,12 +126,11 @@ interface PropsDocument {
 
 /**
  * Bloc d'un document disponible : son état, son intitulé, puis Télécharger, Aperçu et le lien vers un
- * nouvel onglet. L'aperçu s'ouvre dans la fenêtre superposée ; sous 768 px, le bouton Aperçu est un
- * lien qui ouvre le PDF dans un nouvel onglet (les navigateurs mobiles affichent mal un PDF intégré).
+ * nouvel onglet. L'aperçu s'ouvre dans la fenêtre superposée, à toutes les largeurs (plein écran sur
+ * mobile) ; la première page est préchargée au survol ou au focus du bouton.
  */
 export function BlocDocument({ label, titre, url, titreApercu, nom }: PropsDocument) {
   const { ouvrir } = useApercu()
-  const mobile = useMedia(REQUETE_MOBILE)
 
   return (
     <>
@@ -139,32 +145,22 @@ export function BlocDocument({ label, titre, url, titreApercu, nom }: PropsDocum
         <Bouton plein picto="telecharger" href={url} download aria-label={nom(epreuvesActions.telecharger)}>
           {epreuvesActions.telecharger}
         </Bouton>
-        {mobile ? (
-          <a
-            className="p-bouton"
-            href={url}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={nom(epreuvesActions.apercuOnglet)}
-          >
-            <Picto nom="apercu" />
-            {epreuvesActions.apercu}
-          </a>
-        ) : (
-          <motion.button
-            type="button"
-            className="p-bouton"
-            aria-haspopup="dialog"
-            aria-label={nom(epreuvesActions.apercu)}
-            onClick={() => ouvrir({ url, titre: titreApercu })}
-            whileHover={{ y: -2 }}
-            whileTap={{ scale: 0.97 }}
-            transition={RESSORT_VIF}
-          >
-            <Picto nom="apercu" />
-            {epreuvesActions.apercu}
-          </motion.button>
-        )}
+        <motion.button
+          type="button"
+          className="p-bouton"
+          aria-haspopup="dialog"
+          aria-label={nom(epreuvesActions.apercu)}
+          onClick={() => ouvrir({ url, titre: titreApercu })}
+          // La première page est préchargée dès que le bouton est visé : elle est là à l'ouverture.
+          onPointerEnter={() => prechargerDocument(url)}
+          onFocus={() => prechargerDocument(url)}
+          whileHover={{ y: -2 }}
+          whileTap={{ scale: 0.97 }}
+          transition={RESSORT_VIF}
+        >
+          <Picto nom="apercu" />
+          {epreuvesActions.apercu}
+        </motion.button>
         <a className="p-lien" href={url} target="_blank" rel="noreferrer" aria-label={nom(demo.epreuves.ouvrirOnglet)}>
           {demo.epreuves.ouvrirOnglet}
           <Picto nom="externe" />

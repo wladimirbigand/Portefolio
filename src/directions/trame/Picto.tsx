@@ -16,6 +16,7 @@ import {
   Download,
   ExternalLink,
   Eye,
+  FileText,
   Flag,
   FolderKanban,
   Globe,
@@ -44,6 +45,8 @@ import {
   Workflow,
   Wrench,
   X,
+  ZoomIn,
+  ZoomOut,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { siDiscord, siFeedly, siGithub } from 'simple-icons'
@@ -81,6 +84,9 @@ export type NomAction =
   | 'poste'
   | 'periode'
   | 'environnement'
+  | 'zoomer'
+  | 'dezoomer'
+  | 'texte'
 
 type Dessin = LucideIcon | SimpleIcon
 
@@ -140,6 +146,9 @@ const DESSINS: Record<NomPicto | NomAction, Dessin> = {
   poste: BriefcaseBusiness,
   periode: CalendarRange,
   environnement: Layers,
+  zoomer: ZoomIn,
+  dezoomer: ZoomOut,
+  texte: FileText,
 }
 
 /** Les quatre tailles, en pixels. */

@@ -9,8 +9,9 @@ export const entrepriseSection: SectionMeta = {
   nav: 'Entreprise',
   titre: 'Entreprise',
   picto: 'entreprise',
+  // Description fournie par Wladimir, mot pour mot (CONTENU-VALIDE.md, section 4).
   sousTitre:
-    "Syndicat mixte œuvrant pour l’aménagement numérique du territoire : déploiement de la fibre optique, services numériques et ouverture des données publiques.",
+    'Chargé de l’aménagement numérique du territoire en termes d’infrastructures, usages et services (Fibre, Accompagnement des collectivités dans la transition numérique)',
 }
 
 const siteEntreprise: Lien = {

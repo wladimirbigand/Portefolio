@@ -7,10 +7,11 @@ import { useApercu } from './Apercu'
 import { Entete, RESSORT, VUE } from './atomes'
 import { EmblemeParticules } from './Effets'
 import { Picto, ton } from './Picto'
+import { pagesDepuisUrl } from './Visionneuse'
 
 /**
  * Attestation d'une certification : elle s'ouvre dans la fenêtre superposée (image ou PDF).
- * Sous 768 px, un PDF s'ouvre dans un nouvel onglet, comme les documents des épreuves.
+ * Un PDF de `public/docs/` s'ouvre dans la visionneuse, à toutes les largeurs.
  */
 function BoutonAttestation({ certification }: { certification: Certification }) {
   const { ouvrir } = useApercu()
@@ -19,7 +20,8 @@ function BoutonAttestation({ certification }: { certification: Certification }) 
   if (!attestation) return null
   const url = fichierPublic(attestation.fichier)
   const titre = certificationsLibelles.attestationDe(nom)
-  if (mobile && attestation.type === 'pdf') {
+  // Un PDF hors de `public/docs/` n'est pas converti en images : sur mobile, il s'ouvre dans un onglet.
+  if (mobile && attestation.type === 'pdf' && !pagesDepuisUrl(url)) {
     return (
       <a className="p-bouton" href={url} target="_blank" rel="noreferrer" aria-label={titre}>
         <Picto nom="apercu" />

@@ -31,6 +31,7 @@ import { Contact } from './Contact'
 import { Entreprise } from './Entreprise'
 import { FournisseurFiches } from './Fiches'
 import { Formation } from './Formation'
+import { FournisseurGalerie } from './Galerie'
 import { Palette } from './Palette'
 import { Picto } from './Picto'
 import { Parcours } from './Parcours'
@@ -296,6 +297,7 @@ export default function Page({ theme, basculer }: Props) {
   return (
     <div className="piste da-trame">
       <FournisseurApercu>
+      <FournisseurGalerie>
       <FournisseurFiches>
       {tactile ? (
         <TramePosee theme={theme} photo={photo} opacitePhoto={opacitePhoto} />
@@ -508,6 +510,7 @@ export default function Page({ theme, basculer }: Props) {
         basculerOral={oralPossible ? basculerOral : undefined}
       />
       </FournisseurFiches>
+      </FournisseurGalerie>
       </FournisseurApercu>
     </div>
   )

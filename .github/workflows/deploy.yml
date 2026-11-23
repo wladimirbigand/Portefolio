@@ -40,7 +40,8 @@ jobs:
       - name: Installer les dépendances
         run: npm ci
 
-      # « tsc --noEmit && vite build » : une erreur de type arrête la publication.
+      # « prebuild » convertit d'abord les PDF de public/docs/ en images (scripts/pdf-en-images.mjs),
+      # puis « tsc --noEmit && vite build » : une erreur de type arrête la publication.
       - name: Construire le site
         run: npm run build
 
@@ -52,6 +53,9 @@ jobs:
           test -f dist/apercu.png
           test -f dist/docs/e5-tableau-de-synthese.pdf
           test -f dist/docs/e6-neoretail.pdf
+          test -f dist/docs/realisation-6-audit.pdf
+          test -f dist/docs-apercu/e6-neoretail/1-900.avif
+          test -f dist/docs-apercu/e6-neoretail/texte.json
           if grep -rIl '{{' dist --include='*.html'; then echo 'Un texte entre accolades est resté dans une page.'; exit 1; fi
 
       - name: Préparer GitHub Pages

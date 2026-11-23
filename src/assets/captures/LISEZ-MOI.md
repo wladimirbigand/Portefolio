@@ -1,6 +1,6 @@
 # Captures d'écran
 
-Dépose ici les captures, en PNG (JPEG et WebP sont aussi acceptés). Le nom du fichier décide de l'endroit
+Dépose ici les captures, en PNG, en JPEG (`.jpg`, `.jpeg`) ou en WebP. Le nom du fichier décide de l'endroit
 où la capture s'affiche : il n'y a rien d'autre à brancher.
 
 | Nom du fichier | Où elle s'affiche |
@@ -11,7 +11,9 @@ où la capture s'affiche : il n'y a rien d'autre à brancher.
 
 - Au build, chaque capture est convertie en AVIF et en WebP, en 480, 960 et 1600 px de large (jamais
   agrandie). Dépose le fichier d'origine, sans le réduire.
-- Le texte alternatif et la légende s'écrivent dans `src/content/captures.ts` (`legendes`), sous le nom
-  du fichier. En attendant, un texte provisoire est tiré du nom du fichier.
+- La légende s'écrit dans `src/content/captures.ts` (`legendes`), sous le nom du fichier (sans
+  l'extension) : elle s'affiche sous la capture et sert aussi de texte alternatif. Sans légende, un texte
+  provisoire est tiré du nom du fichier.
+- Dans une fiche, un clic sur une capture l'ouvre en grand.
 - Un fichier dont le nom ne suit pas la convention n'est pas affiché (un avertissement s'écrit dans la
   console pendant le développement).

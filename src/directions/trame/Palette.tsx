@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { KeyboardEvent } from 'react'
-import { demo, epreuves, epreuvesActions, realisations, ui } from '../../content'
+import { demo, epreuves, epreuvesActions, realisations, realisationsLibelles, ui } from '../../content'
 import { entrees } from '../../lib/demo'
-import { REQUETE_MOBILE } from '../../lib/media'
 import type { Theme } from '../../lib/theme'
 import { fichierPublic } from '../../lib/url'
 import { useApercu } from './Apercu'
@@ -47,6 +46,10 @@ function normaliser(texte: string): string {
 }
 
 const { palette } = ui
+
+const FICHIERS_EPREUVES = new Set(
+  epreuves.flatMap((epreuve) => epreuve.documents.flatMap((document) => (document.fichier ? [document.fichier] : []))),
+)
 
 /** Les résultats qui ne changent jamais : l'accueil et les 9 sections, les 16 réalisations, les documents. */
 const FIXES: Entree[] = [
@@ -101,6 +104,27 @@ const FIXES: Entree[] = [
           ]
         : [],
     ),
+  ),
+  // Documents joints à une réalisation, sauf ceux qui sont déjà ceux d'une épreuve (la fiche E6).
+  ...realisations.flatMap((realisation) =>
+    (realisation.fiche?.preuves?.documents ?? [])
+      .filter((document) => !FICHIERS_EPREUVES.has(document.url))
+      .map(
+        (document): Entree => ({
+          cle: `document-${realisation.numero}-${document.url}`,
+          genre: 'document',
+          repere: deuxChiffres(realisation.numero),
+          label: document.label,
+          mots: normaliser(
+            `${palette.realisation(realisation.numero)} ${realisation.titreCourt} ${document.label} pdf`,
+          ),
+          effet: {
+            t: 'document',
+            url: fichierPublic(document.url),
+            titre: realisationsLibelles.titreDocument(document.label, realisation.numero),
+          },
+        }),
+      ),
   ),
 ]
 
@@ -282,8 +306,7 @@ export function Palette({ ouverte, onOuverture, theme, basculerTheme, photo, bas
       apercu.fermer()
       fiches.ouvrir(effet.numero)
     } else if (effet.t === 'document') {
-      if (window.matchMedia(REQUETE_MOBILE).matches) window.open(effet.url, '_blank', 'noopener')
-      else apercu.ouvrir({ url: effet.url, titre: effet.titre })
+      apercu.ouvrir({ url: effet.url, titre: effet.titre })
     } else {
       // Une section, ou le portrait (à l'accueil) : fiche et aperçu se ferment, puis la page y saute.
       apercu.fermer()

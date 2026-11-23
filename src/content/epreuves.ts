@@ -15,8 +15,6 @@ export const epreuvesActions = {
   telecharger: 'Télécharger',
   apercu: 'Aperçu',
   apercuTitre: 'Aperçu du document PDF',
-  /** Sous 768 px, l’aperçu s’ouvre dans un nouvel onglet : précisé dans le nom accessible du lien. */
-  apercuOnglet: 'Aperçu (nouvel onglet)',
   /** Titre de l’aperçu d’un document : « Épreuve E6 · Fiche 1 ». */
   titreApercu: (code: string, document: string) => `Épreuve ${code} · ${document}`,
   /** État affiché à la place des liens quand `fichier` est absent. */

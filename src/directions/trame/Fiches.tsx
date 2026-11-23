@@ -6,9 +6,9 @@ import type { Realisation } from '../../content'
 import { dateLongue } from '../../lib/dates'
 import { fichierPublic } from '../../lib/url'
 import { BlocDocument } from './Apercu'
-import { ImageCapture } from './Capture'
 import { RESSORT } from './atomes'
 import { Fenetre } from './Fenetre'
+import { Galerie } from './Galerie'
 import { Picto } from './Picto'
 import { ancreRealisation, deuxChiffres, insecable, numeroDepuisAncre } from './realisations'
 
@@ -167,18 +167,8 @@ function ContenuFiche({ realisation, idTitre }: { realisation: Realisation; idTi
           <section className="p-rubrique">
             <h3 className="p-label">{rubriques.preuves}</h3>
             <div className="p-preuves">
-              {captures.length > 0 && (
-                <ul className="p-galerie" role="list" aria-label={realisationsLibelles.captures}>
-                  {captures.map((capture) => (
-                    <li key={capture.nom}>
-                      <figure>
-                        <ImageCapture capture={capture} largeurs="(min-width: 64em) 22rem, (min-width: 44em) 45vw, 92vw" />
-                        {capture.legende && <figcaption>{capture.legende}</figcaption>}
-                      </figure>
-                    </li>
-                  ))}
-                </ul>
-              )}
+              {/* Un clic sur une capture l'ouvre en grand (`Galerie.tsx`). */}
+              {captures.length > 0 && <Galerie captures={captures} numero={numero} />}
               {documents.length > 0 && (
                 <ul className="p-documents" role="list" aria-label={realisationsLibelles.documents}>
                   {documents.map((document) => (
