@@ -27,8 +27,9 @@ const GLISSEMENT = 48
 /**
  * Capture en grand, dans la fenêtre superposée : l'image entière dans la zone, sa légende dessous,
  * puis « Précédente » et « Suivante ». On passe aussi d'une capture à l'autre par les flèches du
- * clavier et, au toucher, en glissant. Zoom : le bouton, un double-clic, ou un pincement ; zoomée,
- * l'image défile dans sa zone (et le glissement ne change plus de capture).
+ * clavier et, au toucher, en glissant. Zoom : le bouton, un clic sur l'image (le point cliqué reste
+ * sous le curseur ; un second clic revient à l'image entière), ou un pincement ; zoomée, l'image
+ * défile dans sa zone, se déplace en la faisant glisser, et le glissement ne change plus de capture.
  */
 function CaptureEnGrand({
   ouverture,
@@ -139,7 +140,6 @@ function CaptureEnGrand({
         role="group"
         aria-labelledby={idTitre}
         data-agrandi={agrandi ? '' : undefined}
-        onDoubleClick={(evenement) => basculer(evenement.clientX, evenement.clientY)}
       >
         <motion.figure
           key={capture.nom}

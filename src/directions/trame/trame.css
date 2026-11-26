@@ -2436,6 +2436,12 @@ a.p-carte:hover .p-carte-visuel .p-picto {
 .p-visionneuse[data-agrandi] {
   cursor: zoom-out;
 }
+/* Glissement à la souris (src/lib/zoom.ts) : le contenu suit la main, rien ne se sélectionne. */
+.p-capture-zone[data-glisse],
+.p-visionneuse[data-glisse] {
+  cursor: grabbing;
+  user-select: none;
+}
 /* La zone touche les bords de la fenêtre : son contour de focus se trace à l'intérieur, pour rester visible. */
 .piste .p-capture-zone:focus-visible,
 .piste .p-visionneuse:focus-visible {

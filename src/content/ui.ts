@@ -5,7 +5,7 @@ export const ui = {
   fenetre: {
     fermer: 'Fermer',
   },
-  /** Zoom d’une capture ou d’un document (bouton, double-clic, pincement). */
+  /** Zoom d’une capture ou d’un document (bouton, clic, pincement). */
   zoom: {
     zoomer: 'Zoomer',
     dezoomer: 'Dézoomer',

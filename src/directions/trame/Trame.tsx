@@ -4,6 +4,7 @@ import type { MotionValue } from 'motion/react'
 import { profil } from '../../content'
 import { entrees } from '../../lib/demo'
 import type { Theme } from '../../lib/theme'
+import { frequenceEcran } from '../commun/ecran'
 import { hasard, useToile } from '../commun/toile'
 import type { Cadre } from '../commun/toile'
 import { estAlignee, figure, placer, schemaAligne } from './figures'
@@ -18,9 +19,15 @@ const TAU = Math.PI * 2
 const PALIERS_BUREAU = [150, 120, 96, 70]
 const PALIERS_MOBILE = [64, 52, 40]
 const REQUETE_MOBILE = '(max-width: 47.99em)'
-/** Sécurité de fluidité : sous ce nombre d'images par seconde, pendant ce nombre de secondes de suite, la densité baisse d'un palier. */
-const IMAGES_MIN = 50
+/**
+ * Sécurité de fluidité : la page est comparée à l'écran, dont la fréquence est mesurée au démarrage
+ * (`frequenceEcran`). Si elle rend moins de cette part des images que l'écran affiche, pendant ce
+ * nombre de secondes de suite, la densité baisse d'un palier. Un écran à 30 Hz n'y est donc pour rien.
+ */
+const PART_MIN = 0.8
 const SECONDES_LENTES = 3
+/** Au-delà de cette fréquence, l'exigence ne monte plus : 48 images par seconde restent fluides sur un écran à 144 ou 240 Hz. */
+const FREQUENCE_PLAFOND = 60
 /** Après un chargement ou un changement de densité, la mesure attend (ms) : le démarrage n'est pas représentatif. */
 const DELAI_MESURE = 2500
 /** Durée de la fusion points → photo (s). */
@@ -175,6 +182,8 @@ export function Trame({ etat, theme, photo, opacitePhoto }: Props) {
   /** Sécurité de fluidité : palier de densité courant, et mesure des images par seconde. */
   const palier = useRef(0)
   const mesure = useRef({ debut: 0, dernier: 0, images: 0, lentes: 0, reprise: 0 })
+  /** Fréquence de l'écran (images par seconde) ; 0 tant qu'elle n'est pas mesurée. */
+  const ecran = useRef(0)
   const reconstruire = useRef<() => void>(() => {})
   const arrets = useRef<number[]>([])
   const [pret, setPret] = useState(0)
@@ -186,15 +195,17 @@ export function Trame({ etat, theme, photo, opacitePhoto }: Props) {
     const image = new Image()
     image.decoding = 'async'
     const construire = () => {
-      if (!image.complete || image.naturalWidth === 0) return
+      // Le portrait attend la mesure de l'écran (huit images, en général) : elle se fait page au repos.
+      if (!image.complete || image.naturalWidth === 0 || ecran.current === 0) return
       const paliers = media.matches ? PALIERS_MOBILE : PALIERS_BUREAU
       palier.current = Math.min(palier.current, paliers.length - 1)
       const colonnes = paliers[palier.current]!
       points.current = echantillonner(image, colonnes)
       mesure.current.reprise = performance.now() + DELAI_MESURE
       mesure.current.lentes = 0
-      // Densité et nombre de points, lisibles depuis la page (mesure de fluidité).
+      // Densité, nombre de points et fréquence de l'écran, lisibles depuis la page (mesure de fluidité).
       if (ref.current) {
+        ref.current.dataset.ecran = String(Math.round(ecran.current))
         ref.current.dataset.colonnes = String(colonnes)
         ref.current.dataset.points = String(points.current?.n ?? 0)
       }
@@ -207,10 +218,17 @@ export function Trame({ etat, theme, photo, opacitePhoto }: Props) {
       palier.current++
       construire()
     }
+    let monte = true
+    void frequenceEcran().then((frequence) => {
+      if (!monte) return
+      ecran.current = frequence
+      construire()
+    })
     image.onload = construire
     image.src = profil.photoDetouree
     media.addEventListener('change', construire)
     return () => {
+      monte = false
       image.onload = null
       reconstruire.current = () => {}
       media.removeEventListener('change', construire)
@@ -284,8 +302,9 @@ export function Trame({ etat, theme, photo, opacitePhoto }: Props) {
     if (!p) return
     reperes.current.image++
 
-    // Sécurité de fluidité : images comptées par tranches d'une seconde. Trois tranches lentes de
-    // suite font baisser la densité d'un palier. Une pause (onglet caché, toile hors écran) ne compte pas.
+    // Sécurité de fluidité : images comptées par tranches d'une seconde, et comparées à ce que l'écran
+    // affiche. Trois tranches lentes de suite font baisser la densité d'un palier. Une pause (onglet
+    // caché, toile hors écran) ne compte pas.
     if (!fixe) {
       const m = mesure.current
       const maintenant = performance.now()
@@ -296,7 +315,14 @@ export function Trame({ etat, theme, photo, opacitePhoto }: Props) {
         m.images++
         const ecoule = maintenant - m.debut
         if (ecoule >= 1000) {
-          m.lentes = Math.round((m.images * 1000) / ecoule) < IMAGES_MIN ? m.lentes + 1 : 0
+          const rendues = (m.images * 1000) / ecoule
+          // La page vient de rendre plus d'images que la fréquence mesurée : l'écran va au moins aussi
+          // vite (mesure prise pendant un démarrage chargé). On la corrige.
+          if (rendues > ecran.current * 1.1) {
+            ecran.current = rendues
+            ctx.canvas.dataset.ecran = String(Math.round(rendues))
+          }
+          m.lentes = rendues < PART_MIN * Math.min(ecran.current, FREQUENCE_PLAFOND) ? m.lentes + 1 : 0
           m.debut = maintenant
           m.images = 0
           if (m.lentes >= SECONDES_LENTES) {

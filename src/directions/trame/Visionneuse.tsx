@@ -64,7 +64,8 @@ interface Props {
  * - Le compteur « Page 2 / 8 » suit le défilement.
  * - Clavier : flèches haut et bas (défilement), flèches gauche et droite, Page précédente et Page
  *   suivante (page par page), Début et Fin.
- * - Zoom : le bouton, un double-clic sur la page, ou un pincement.
+ * - Zoom : le bouton, un clic sur la page (un second clic revient à la taille ajustée), ou un
+ *   pincement. À la souris, faire glisser la page la déplace ; la molette défile toujours.
  * - « Version texte » remplace les images par le texte extrait du PDF.
  */
 export function Visionneuse({ url, titre, idTitre, pages, onFermer }: Props) {
@@ -235,7 +236,6 @@ export function Visionneuse({ url, titre, idTitre, pages, onFermer }: Props) {
         aria-label={visionneuse.pages}
         data-agrandi={agrandi ? '' : undefined}
         data-texte={enTexte ? '' : undefined}
-        onDoubleClick={(evenement) => !enTexte && basculer(evenement.clientX, evenement.clientY)}
       >
         {enTexte ? (
           <div className="p-visionneuse-texte">
